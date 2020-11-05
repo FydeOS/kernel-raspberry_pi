@@ -39,6 +39,7 @@
 #include <linux/netdevice.h>
 #include <linux/icmpv6.h>
 #include <linux/netfilter_ipv6.h>
+#include <linux/android_aid.h>
 
 #include <net/ip.h>
 #include <net/ipv6.h>
@@ -166,7 +167,7 @@ lookup_protocol:
 
 	err = -EPERM;
 	if (sock->type == SOCK_RAW && !kern &&
-	    !ns_capable(net->user_ns, CAP_NET_RAW))
+	    !android_ns_capable(net, CAP_NET_RAW))
 		goto out_rcu_unlock;
 
 	sock->ops = answer->ops;

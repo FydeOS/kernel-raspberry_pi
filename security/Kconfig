@@ -238,6 +238,7 @@ source "security/loadpin/Kconfig"
 source "security/yama/Kconfig"
 source "security/safesetid/Kconfig"
 source "security/lockdown/Kconfig"
+source "security/chromiumos/Kconfig"
 
 source "security/integrity/Kconfig"
 
@@ -290,6 +291,15 @@ config LSM
 	  If unsure, leave this as the default.
 
 source "security/Kconfig.hardening"
+
+config ARCH_HAS_ALT_SYSCALL
+  def_bool n
+
+config ALT_SYSCALL
+  bool "Alternate syscall table support"
+  depends on ARCH_HAS_ALT_SYSCALL
+  help
+    Allow syscall table to be swapped on a running process.
 
 endmenu
 

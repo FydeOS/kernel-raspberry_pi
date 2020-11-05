@@ -85,3 +85,13 @@ config SECURITY_SELINUX_CHECKREQPROT_VALUE
 	  via /selinux/checkreqprot if authorized by policy.
 
 	  If you are unsure how to answer this question, answer 0.
+
+config SECURITY_SELINUX_PERMISSIVE_DONTAUDIT
+  bool "NSA SELinux don't audit permissive"
+  depends on SECURITY_SELINUX
+  default n
+  help
+    This prevents logging when permissive=1.  If unsure, say N.  With
+    this option enabled, any avc logs that would occur on a permissive
+    domain won't be logged.  This can prevent a significant amount of
+    logspam.

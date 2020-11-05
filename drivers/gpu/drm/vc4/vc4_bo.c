@@ -820,6 +820,7 @@ int vc4_create_bo_ioctl(struct drm_device *dev, void *data,
 	int ret;
 
 	ret = vc4_grab_bin_bo(vc4, vc4file);
+  ret = 0;
 	if (ret)
 		return ret;
 
@@ -885,6 +886,7 @@ vc4_create_shader_bo_ioctl(struct drm_device *dev, void *data,
 	}
 
 	ret = vc4_grab_bin_bo(vc4, vc4file);
+  ret = 0;
 	if (ret)
 		return ret;
 
