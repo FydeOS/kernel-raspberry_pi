@@ -1,0 +1,1337 @@
+mm/mincore.c:101:	if (vma->vm_file) {
+mm/mincore.c:106:			vec[i] = mincore_page(vma->vm_file->f_mapping, pgoff);
+mm/mincore.c:184:	if (!vma->vm_file)
+mm/mincore.c:192:	return inode_owner_or_capable(file_inode(vma->vm_file)) ||
+mm/mincore.c:193:		inode_permission(file_inode(vma->vm_file), MAY_WRITE) == 0;
+mm/mincore.c:214:	if (!vma || addr < vma->vm_start)
+mm/mincore.c:216:	end = min(vma->vm_end, addr + (pages << PAGE_SHIFT));
+mm/mincore.c:222:	err = walk_page_range(vma->vm_mm, addr, end, &mincore_walk_ops, vec);
+mm/vmalloc.c:3035:	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
+mm/vmalloc.c:3058:	return remap_vmalloc_range_partial(vma, vma->vm_start,
+mm/vmalloc.c:3060:					   vma->vm_end - vma->vm_start);
+mm/oom_kill.c:527:	for (vma = mm->mmap ; vma; vma = vma->vm_next) {
+mm/oom_kill.c:541:		if (vma_is_anonymous(vma) || !(vma->vm_flags & VM_SHARED)) {
+mm/oom_kill.c:546:						vma, mm, vma->vm_start,
+mm/oom_kill.c:547:						vma->vm_end);
+mm/hugetlb.c:220:	return subpool_inode(file_inode(vma->vm_file));
+mm/hugetlb.c:626:	return ((address - vma->vm_start) >> huge_page_shift(h)) +
+mm/hugetlb.c:627:			(vma->vm_pgoff >> huge_page_order(h));
+mm/hugetlb.c:643:	if (vma->vm_ops && vma->vm_ops->pagesize)
+mm/hugetlb.c:644:		return vma->vm_ops->pagesize(vma);
+mm/hugetlb.c:690:	return (unsigned long)vma->vm_private_data;
+mm/hugetlb.c:696:	vma->vm_private_data = (void *)value;
+mm/hugetlb.c:759:	if (vma->vm_flags & VM_MAYSHARE) {
+mm/hugetlb.c:760:		struct address_space *mapping = vma->vm_file->f_mapping;
+mm/hugetlb.c:774:	VM_BUG_ON_VMA(vma->vm_flags & VM_MAYSHARE, vma);
+mm/hugetlb.c:783:	VM_BUG_ON_VMA(vma->vm_flags & VM_MAYSHARE, vma);
+mm/hugetlb.c:799:	if (!(vma->vm_flags & VM_MAYSHARE))
+mm/hugetlb.c:800:		vma->vm_private_data = (void *)0;
+mm/hugetlb.c:806:	if (vma->vm_flags & VM_NORESERVE) {
+mm/hugetlb.c:816:		if (vma->vm_flags & VM_MAYSHARE && chg == 0)
+mm/hugetlb.c:823:	if (vma->vm_flags & VM_MAYSHARE) {
+mm/hugetlb.c:2010:		if (vma->vm_flags & VM_MAYSHARE)
+mm/hugetlb.c:2021:	if (vma->vm_flags & VM_MAYSHARE)
+mm/hugetlb.c:3320:	start = vma_hugecache_offset(h, vma, vma->vm_start);
+mm/hugetlb.c:3321:	end = vma_hugecache_offset(h, vma, vma->vm_end);
+mm/hugetlb.c:3385:					 vma->vm_page_prot)));
+mm/hugetlb.c:3388:					   vma->vm_page_prot));
+mm/hugetlb.c:3445:	cow = (vma->vm_flags & (VM_SHARED | VM_MAYWRITE)) == VM_MAYWRITE;
+mm/hugetlb.c:3449:					vma->vm_start,
+mm/hugetlb.c:3450:					vma->vm_end);
+mm/hugetlb.c:3454:	for (addr = vma->vm_start; addr < vma->vm_end; addr += sz) {
+mm/hugetlb.c:3537:	struct mm_struct *mm = vma->vm_mm;
+mm/hugetlb.c:3652:	vma->vm_flags &= ~VM_MAYSHARE;
+mm/hugetlb.c:3672:	mm = vma->vm_mm;
+mm/hugetlb.c:3698:	pgoff = ((address - vma->vm_start) >> PAGE_SHIFT) +
+mm/hugetlb.c:3699:			vma->vm_pgoff;
+mm/hugetlb.c:3700:	mapping = vma->vm_file->f_mapping;
+mm/hugetlb.c:3718:		if (iter_vma->vm_flags & VM_MAYSHARE)
+mm/hugetlb.c:3872:	mapping = vma->vm_file->f_mapping;
+mm/hugetlb.c:3889:	mapping = vma->vm_file->f_mapping;
+mm/hugetlb.c:4016:		if (vma->vm_flags & VM_MAYSHARE) {
+mm/hugetlb.c:4051:	if ((flags & FAULT_FLAG_WRITE) && !(vma->vm_flags & VM_SHARED)) {
+mm/hugetlb.c:4074:	new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
+mm/hugetlb.c:4075:				&& (vma->vm_flags & VM_SHARED)));
+mm/hugetlb.c:4079:	if ((flags & FAULT_FLAG_WRITE) && !(vma->vm_flags & VM_SHARED)) {
+mm/hugetlb.c:4163:	mapping = vma->vm_file->f_mapping;
+mm/hugetlb.c:4208:		if (!(vma->vm_flags & VM_MAYSHARE))
+mm/hugetlb.c:4284:	int vm_shared = dst_vma->vm_flags & VM_SHARED;
+mm/hugetlb.c:4320:	mapping = dst_vma->vm_file->f_mapping;
+mm/hugetlb.c:4371:	_dst_pte = make_huge_pte(dst_vma, page, dst_vma->vm_flags & VM_WRITE);
+mm/hugetlb.c:4372:	if (dst_vma->vm_flags & VM_WRITE)
+mm/hugetlb.c:4379:					dst_vma->vm_flags & VM_WRITE);
+mm/hugetlb.c:4412:	while (vaddr < vma->vm_end && remainder) {
+mm/hugetlb.c:4538:		if (vaddr < vma->vm_end && remainder &&
+mm/hugetlb.c:4570:	struct mm_struct *mm = vma->vm_mm;
+mm/hugetlb.c:4592:	i_mmap_lock_write(vma->vm_file->f_mapping);
+mm/hugetlb.c:4653:	i_mmap_unlock_write(vma->vm_file->f_mapping);
+mm/hugetlb.c:4690:	if (!vma || vma->vm_flags & VM_MAYSHARE) {
+mm/hugetlb.c:4749:	if (!vma || vma->vm_flags & VM_MAYSHARE) {
+mm/hugetlb.c:4769:	if (!vma || vma->vm_flags & VM_MAYSHARE)
+mm/hugetlb.c:4821:	unsigned long saddr = ((idx - svma->vm_pgoff) << PAGE_SHIFT) +
+mm/hugetlb.c:4822:				svma->vm_start;
+mm/hugetlb.c:4827:	unsigned long vm_flags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+mm/hugetlb.c:4828:	unsigned long svm_flags = svma->vm_flags & VM_LOCKED_CLEAR_MASK;
+mm/hugetlb.c:4836:	    sbase < svma->vm_start || svma->vm_end < s_end)
+mm/hugetlb.c:4850:	if (vma->vm_flags & VM_MAYSHARE && range_in_vma(vma, base, end))
+mm/hugetlb.c:4865:	if (!(vma->vm_flags & VM_MAYSHARE))
+mm/hugetlb.c:4876:	*start = max(vma->vm_start, a_start);
+mm/hugetlb.c:4877:	*end = min(vma->vm_end, a_end);
+mm/hugetlb.c:4892:	struct address_space *mapping = vma->vm_file->f_mapping;
+mm/hugetlb.c:4893:	pgoff_t idx = ((addr - vma->vm_start) >> PAGE_SHIFT) +
+mm/hugetlb.c:4894:			vma->vm_pgoff;
+mm/hugetlb.c:4911:			spte = huge_pte_offset(svma->vm_mm, saddr,
+mm/msync.c:70:		/* Here start < vma->vm_end. */
+mm/msync.c:71:		if (start < vma->vm_start) {
+mm/msync.c:72:			start = vma->vm_start;
+mm/msync.c:77:		/* Here vma->vm_start <= start < vma->vm_end. */
+mm/msync.c:79:				(vma->vm_flags & VM_LOCKED)) {
+mm/msync.c:83:		file = vma->vm_file;
+mm/msync.c:84:		fstart = (start - vma->vm_start) +
+mm/msync.c:85:			 ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+mm/msync.c:86:		fend = fstart + (min(end, vma->vm_end) - start) - 1;
+mm/msync.c:87:		start = vma->vm_end;
+mm/msync.c:89:				(vma->vm_flags & VM_SHARED)) {
+mm/msync.c:103:			vma = vma->vm_next;
+mm/util.c:278:	vma->vm_prev = prev;
+mm/util.c:290:	vma->vm_next = next;
+mm/util.c:300:	return (vma->vm_start <= KSTK_ESP(t) && vma->vm_end >= KSTK_ESP(t));
+mm/page_vma_mapped.c:50:	pvmw->ptl = pte_lockptr(pvmw->vma->vm_mm, pvmw->pmd);
+mm/page_vma_mapped.c:140:	struct mm_struct *mm = pvmw->vma->vm_mm;
+mm/page_vma_mapped.c:223:			if (pvmw->address >= pvmw->vma->vm_end ||
+mm/page_vma_mapped.c:269:	if (unlikely(end < vma->vm_start || start >= vma->vm_end))
+mm/page_vma_mapped.c:271:	pvmw.address = max(start, vma->vm_start);
+mm/swap_state.c:346:			atomic_long_set(&vma->swap_readahead_info,
+mm/swap_state.c:637:	*start = max3(lpfn, PFN_DOWN(vma->vm_start),
+mm/swap_state.c:639:	*end = min3(rpfn, PFN_DOWN(vma->vm_end),
+mm/swap_state.c:679:	atomic_long_set(&vma->swap_readahead_info,
+mm/swap_state.c:782: * or vma-based(ie, virtual address based on faulty address) readahead.
+mm/madvise.c:41: * Any behaviour which results in changes to the vma->vm_flags needs to
+mm/madvise.c:69:	struct mm_struct *mm = vma->vm_mm;
+mm/madvise.c:72:	unsigned long new_flags = vma->vm_flags;
+mm/madvise.c:88:		if (vma->vm_flags & VM_IO) {
+mm/madvise.c:96:		if (vma->vm_file || vma->vm_flags & VM_SHARED) {
+mm/madvise.c:129:	if (new_flags == vma->vm_flags) {
+mm/madvise.c:134:	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
+mm/madvise.c:135:	*prev = vma_merge(mm, *prev, start, end, new_flags, vma->anon_vma,
+mm/madvise.c:136:			  vma->vm_file, pgoff, vma_policy(vma),
+mm/madvise.c:137:			  vma->vm_userfaultfd_ctx);
+mm/madvise.c:145:	if (start != vma->vm_start) {
+mm/madvise.c:155:	if (end != vma->vm_end) {
+mm/madvise.c:169:	vma->vm_flags = new_flags;
+mm/madvise.c:199:		orig_pte = pte_offset_map_lock(vma->vm_mm, pmd, start, &ptl);
+mm/madvise.c:231:		index = ((start - vma->vm_start) >> PAGE_SHIFT) + vma->vm_pgoff;
+mm/madvise.c:257:	struct file *file = vma->vm_file;
+mm/madvise.c:263:		walk_page_range(vma->vm_mm, start, end, &swapin_walk_ops, vma);
+mm/madvise.c:291:	offset = (loff_t)(start - vma->vm_start)
+mm/madvise.c:292:			+ ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+mm/madvise.c:388:	orig_pte = pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+mm/madvise.c:487:	walk_page_range(vma->vm_mm, addr, end, &cold_walk_ops, &walk_private);
+mm/madvise.c:495:	struct mm_struct *mm = vma->vm_mm;
+mm/madvise.c:520:	walk_page_range(vma->vm_mm, addr, end, &cold_walk_ops, &walk_private);
+mm/madvise.c:528:	if (!vma->vm_file)
+mm/madvise.c:536:	return inode_owner_or_capable(file_inode(vma->vm_file)) ||
+mm/madvise.c:537:		inode_permission(file_inode(vma->vm_file), MAY_WRITE) == 0;
+mm/madvise.c:544:	struct mm_struct *mm = vma->vm_mm;
+mm/madvise.c:702:	struct mm_struct *mm = vma->vm_mm;
+mm/madvise.c:710:	range.start = max(vma->vm_start, start_addr);
+mm/madvise.c:711:	if (range.start >= vma->vm_end)
+mm/madvise.c:713:	range.end = min(vma->vm_end, end_addr);
+mm/madvise.c:714:	if (range.end <= vma->vm_start)
+mm/madvise.c:725:	walk_page_range(vma->vm_mm, range.start, range.end,
+mm/madvise.c:776:		if (start < vma->vm_start) {
+mm/madvise.c:779:			 * with the lowest vma->vm_start where start
+mm/madvise.c:780:			 * is also < vma->vm_end. If start <
+mm/madvise.c:781:			 * vma->vm_start it means an hole materialized
+mm/madvise.c:790:		if (end > vma->vm_end) {
+mm/madvise.c:792:			 * Don't fail if end > vma->vm_end. If the old
+mm/madvise.c:800:			 * end-vma->vm_end range, but the manager can
+mm/madvise.c:803:			end = vma->vm_end;
+mm/madvise.c:830:	if (vma->vm_flags & VM_LOCKED)
+mm/madvise.c:833:	f = vma->vm_file;
+mm/madvise.c:839:	if ((vma->vm_flags & (VM_SHARED|VM_WRITE)) != (VM_SHARED|VM_WRITE))
+mm/madvise.c:842:	offset = (loff_t)(start - vma->vm_start)
+mm/madvise.c:843:			+ ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+mm/madvise.c:1103:	if (vma && start > vma->vm_start)
+mm/madvise.c:1113:		/* Here start < (end|vma->vm_end). */
+mm/madvise.c:1114:		if (start < vma->vm_start) {
+mm/madvise.c:1116:			start = vma->vm_start;
+mm/madvise.c:1121:		/* Here vma->vm_start <= start < (end|vma->vm_end) */
+mm/madvise.c:1122:		tmp = vma->vm_end;
+mm/madvise.c:1126:		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
+mm/huge_memory.c:68:	unsigned long addr = (vma->vm_end & HPAGE_PMD_MASK) - HPAGE_PMD_SIZE;
+mm/huge_memory.c:486:	if (likely(vma->vm_flags & VM_WRITE))
+mm/huge_memory.c:586:	if (mem_cgroup_try_charge_delay(page, vma->vm_mm, gfp, &memcg, true)) {
+mm/huge_memory.c:592:	pgtable = pte_alloc_one(vma->vm_mm);
+mm/huge_memory.c:606:	vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+mm/huge_memory.c:612:		ret = check_stable_address_space(vma->vm_mm);
+mm/huge_memory.c:623:			pte_free(vma->vm_mm, pgtable);
+mm/huge_memory.c:629:		entry = mk_huge_pmd(page, vma->vm_page_prot);
+mm/huge_memory.c:634:		pgtable_trans_huge_deposit(vma->vm_mm, vmf->pmd, pgtable);
+mm/huge_memory.c:635:		set_pmd_at(vma->vm_mm, haddr, vmf->pmd, entry);
+mm/huge_memory.c:636:		add_mm_counter(vma->vm_mm, MM_ANONPAGES, HPAGE_PMD_NR);
+mm/huge_memory.c:637:		mm_inc_nr_ptes(vma->vm_mm);
+mm/huge_memory.c:648:		pte_free(vma->vm_mm, pgtable);
+mm/huge_memory.c:666:	const bool vma_madvised = !!(vma->vm_flags & VM_HUGEPAGE);
+mm/huge_memory.c:698:	entry = mk_pmd(zero_page, vma->vm_page_prot);
+mm/huge_memory.c:718:	if (unlikely(khugepaged_enter(vma, vma->vm_flags)))
+mm/huge_memory.c:721:			!mm_forbids_zeropage(vma->vm_mm) &&
+mm/huge_memory.c:727:		pgtable = pte_alloc_one(vma->vm_mm);
+mm/huge_memory.c:730:		zero_page = mm_get_huge_zero_page(vma->vm_mm);
+mm/huge_memory.c:732:			pte_free(vma->vm_mm, pgtable);
+mm/huge_memory.c:736:		vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+mm/huge_memory.c:740:			ret = check_stable_address_space(vma->vm_mm);
+mm/huge_memory.c:748:				set_huge_zero_page(pgtable, vma->vm_mm, vma,
+mm/huge_memory.c:756:			pte_free(vma->vm_mm, pgtable);
+mm/huge_memory.c:773:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:820:	pgprot_t pgprot = vma->vm_page_prot;
+mm/huge_memory.c:828:	BUG_ON(!(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP)) &&
+mm/huge_memory.c:830:	BUG_ON((vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP)) ==
+mm/huge_memory.c:832:	BUG_ON((vma->vm_flags & VM_PFNMAP) && is_cow_mapping(vma->vm_flags));
+mm/huge_memory.c:834:	if (addr < vma->vm_start || addr >= vma->vm_end)
+mm/huge_memory.c:838:		pgtable = pte_alloc_one(vma->vm_mm);
+mm/huge_memory.c:853:	if (likely(vma->vm_flags & VM_WRITE))
+mm/huge_memory.c:861:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:898:	pgprot_t pgprot = vma->vm_page_prot;
+mm/huge_memory.c:905:	BUG_ON(!(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP)) &&
+mm/huge_memory.c:907:	BUG_ON((vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP)) ==
+mm/huge_memory.c:909:	BUG_ON((vma->vm_flags & VM_PFNMAP) && is_cow_mapping(vma->vm_flags));
+mm/huge_memory.c:911:	if (addr < vma->vm_start || addr >= vma->vm_end)
+mm/huge_memory.c:939:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:1085:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:1161:	vmf->ptl = pud_lock(vmf->vma->vm_mm, vmf->pud);
+mm/huge_memory.c:1183:	vmf->ptl = pmd_lock(vmf->vma->vm_mm, vmf->pmd);
+mm/huge_memory.c:1222:			     mem_cgroup_try_charge_delay(pages[i], vma->vm_mm,
+mm/huge_memory.c:1247:	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
+mm/huge_memory.c:1251:	vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+mm/huge_memory.c:1266:	pgtable = pgtable_trans_huge_withdraw(vma->vm_mm, vmf->pmd);
+mm/huge_memory.c:1267:	pmd_populate(vma->vm_mm, &_pmd, pgtable);
+mm/huge_memory.c:1271:		entry = mk_pte(pages[i], vma->vm_page_prot);
+mm/huge_memory.c:1280:		set_pte_at(vma->vm_mm, haddr, vmf->pte, entry);
+mm/huge_memory.c:1286:	pmd_populate(vma->vm_mm, vmf->pmd, pgtable);
+mm/huge_memory.c:1325:	vmf->ptl = pmd_lockptr(vma->vm_mm, vmf->pmd);
+mm/huge_memory.c:1326:	VM_BUG_ON_VMA(!vma->anon_vma, vma);
+mm/huge_memory.c:1390:	if (unlikely(mem_cgroup_try_charge_delay(new_page, vma->vm_mm,
+mm/huge_memory.c:1411:	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
+mm/huge_memory.c:1425:		entry = mk_huge_pmd(new_page, vma->vm_page_prot);
+mm/huge_memory.c:1431:		set_pmd_at(vma->vm_mm, haddr, vmf->pmd, entry);
+mm/huge_memory.c:1434:			add_mm_counter(vma->vm_mm, MM_ANONPAGES, HPAGE_PMD_NR);
+mm/huge_memory.c:1470:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:1490:	if ((flags & FOLL_MLOCK) && (vma->vm_flags & VM_LOCKED)) {
+mm/huge_memory.c:1547:	vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+mm/huge_memory.c:1636:	if (mm_tlb_flush_pending(vma->vm_mm)) {
+mm/huge_memory.c:1647:		mmu_notifier_invalidate_range(vma->vm_mm, haddr,
+mm/huge_memory.c:1657:	migrated = migrate_misplaced_transhuge_page(vma->vm_mm, vma,
+mm/huge_memory.c:1669:	pmd = pmd_modify(pmd, vma->vm_page_prot);
+mm/huge_memory.c:1673:	set_pmd_at(vma->vm_mm, haddr, vmf->pmd, pmd);
+mm/huge_memory.c:1870:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:1927:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:2015:	ptl = pmd_lock(vma->vm_mm, pmd);
+mm/huge_memory.c:2033:	ptl = pud_lock(vma->vm_mm, pud);
+mm/huge_memory.c:2071:	VM_BUG_ON_VMA(vma->vm_start > haddr, vma);
+mm/huge_memory.c:2072:	VM_BUG_ON_VMA(vma->vm_end < haddr + HPAGE_PUD_SIZE, vma);
+mm/huge_memory.c:2086:	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
+mm/huge_memory.c:2090:	ptl = pud_lock(vma->vm_mm, pud);
+mm/huge_memory.c:2108:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:2128:		entry = pfn_pte(my_zero_pfn(haddr), vma->vm_page_prot);
+mm/huge_memory.c:2142:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:2151:	VM_BUG_ON_VMA(vma->vm_start > haddr, vma);
+mm/huge_memory.c:2152:	VM_BUG_ON_VMA(vma->vm_end < haddr + HPAGE_PMD_SIZE, vma);
+mm/huge_memory.c:2253:			entry = mk_pte(page + i, READ_ONCE(vma->vm_page_prot));
+mm/huge_memory.c:2313:	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
+mm/huge_memory.c:2317:	ptl = pmd_lock(vma->vm_mm, pmd);
+mm/huge_memory.c:2383:	pgd = pgd_offset(vma->vm_mm, address);
+mm/huge_memory.c:2411:	    (start & HPAGE_PMD_MASK) >= vma->vm_start &&
+mm/huge_memory.c:2412:	    (start & HPAGE_PMD_MASK) + HPAGE_PMD_SIZE <= vma->vm_end)
+mm/huge_memory.c:2421:	    (end & HPAGE_PMD_MASK) >= vma->vm_start &&
+mm/huge_memory.c:2422:	    (end & HPAGE_PMD_MASK) + HPAGE_PMD_SIZE <= vma->vm_end)
+mm/huge_memory.c:2426:	 * If we're also updating the vma->vm_next->vm_start, if the new
+mm/huge_memory.c:2431:		struct vm_area_struct *next = vma->vm_next;
+mm/huge_memory.c:2648: * anon_vma of the transparent hugepage can become the vma->anon_vma
+mm/huge_memory.c:3055:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:3080:	struct mm_struct *mm = vma->vm_mm;
+mm/huge_memory.c:3091:	pmde = pmd_mkold(mk_huge_pmd(new, vma->vm_page_prot));
+mm/huge_memory.c:3103:	if ((vma->vm_flags & VM_LOCKED) && !PageDoubleMap(new))
+mm/memory.c:386:		struct vm_area_struct *next = vma->vm_next;
+mm/memory.c:387:		unsigned long addr = vma->vm_start;
+mm/memory.c:397:			hugetlb_free_pgd_range(tlb, addr, vma->vm_end,
+mm/memory.c:403:			while (next && next->vm_start <= vma->vm_end + PMD_SIZE
+mm/memory.c:406:				next = vma->vm_next;
+mm/memory.c:410:			free_pgd_range(tlb, addr, vma->vm_end,
+mm/memory.c:496:	pgd_t *pgd = pgd_offset(vma->vm_mm, addr);
+mm/memory.c:525:	mapping = vma->vm_file ? vma->vm_file->f_mapping : NULL;
+mm/memory.c:534:		 (void *)addr, vma->vm_flags, vma->anon_vma, mapping, index);
+mm/memory.c:536:		 vma->vm_file,
+mm/memory.c:537:		 vma->vm_ops ? vma->vm_ops->fault : NULL,
+mm/memory.c:538:		 vma->vm_file ? vma->vm_file->f_op->mmap : NULL,
+mm/memory.c:565: *	pfn_of_page == vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT)
+mm/memory.c:594:		if (vma->vm_ops && vma->vm_ops->find_special_page)
+mm/memory.c:595:			return vma->vm_ops->find_special_page(vma, addr);
+mm/memory.c:596:		if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
+mm/memory.c:609:	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+mm/memory.c:610:		if (vma->vm_flags & VM_MIXEDMAP) {
+mm/memory.c:616:			off = (addr - vma->vm_start) >> PAGE_SHIFT;
+mm/memory.c:617:			if (pfn == vma->vm_pgoff + off)
+mm/memory.c:619:			if (!is_cow_mapping(vma->vm_flags))
+mm/memory.c:652:	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+mm/memory.c:653:		if (vma->vm_flags & VM_MIXEDMAP) {
+mm/memory.c:659:			off = (addr - vma->vm_start) >> PAGE_SHIFT;
+mm/memory.c:660:			if (pfn == vma->vm_pgoff + off)
+mm/memory.c:662:			if (!is_cow_mapping(vma->vm_flags))
+mm/memory.c:694:	unsigned long vm_flags = vma->vm_flags;
+mm/memory.c:954:	unsigned long addr = vma->vm_start;
+mm/memory.c:955:	unsigned long end = vma->vm_end;
+mm/memory.c:966:	if (!(vma->vm_flags & (VM_HUGETLB | VM_PFNMAP | VM_MIXEDMAP)) &&
+mm/memory.c:967:			!vma->anon_vma)
+mm/memory.c:973:	if (unlikely(vma->vm_flags & VM_PFNMAP)) {
+mm/memory.c:989:	is_cow = is_cow_mapping(vma->vm_flags);
+mm/memory.c:1070:				    likely(!(vma->vm_flags & VM_SEQ_READ)))
+mm/memory.c:1244:	pgd = pgd_offset(vma->vm_mm, addr);
+mm/memory.c:1260:	unsigned long start = max(vma->vm_start, start_addr);
+mm/memory.c:1263:	if (start >= vma->vm_end)
+mm/memory.c:1265:	end = min(vma->vm_end, end_addr);
+mm/memory.c:1266:	if (end <= vma->vm_start)
+mm/memory.c:1269:	if (vma->vm_file)
+mm/memory.c:1272:	if (unlikely(vma->vm_flags & VM_PFNMAP))
+mm/memory.c:1278:			 * It is undesirable to test vma->vm_file as it
+mm/memory.c:1283:			 * mmap_region() nullifies vma->vm_file
+mm/memory.c:1288:			if (vma->vm_file) {
+mm/memory.c:1289:				i_mmap_lock_write(vma->vm_file->f_mapping);
+mm/memory.c:1291:				i_mmap_unlock_write(vma->vm_file->f_mapping);
+mm/memory.c:1322:	mmu_notifier_range_init(&range, MMU_NOTIFY_UNMAP, 0, vma, vma->vm_mm,
+mm/memory.c:1325:	for ( ; vma && vma->vm_start < end_addr; vma = vma->vm_next)
+mm/memory.c:1345:	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
+mm/memory.c:1347:	tlb_gather_mmu(&tlb, vma->vm_mm, start, range.end);
+mm/memory.c:1348:	update_hiwater_rss(vma->vm_mm);
+mm/memory.c:1350:	for ( ; vma && vma->vm_start < range.end; vma = vma->vm_next)
+mm/memory.c:1372:	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
+mm/memory.c:1374:	tlb_gather_mmu(&tlb, vma->vm_mm, address, range.end);
+mm/memory.c:1375:	update_hiwater_rss(vma->vm_mm);
+mm/memory.c:1396:	if (address < vma->vm_start || address + size > vma->vm_end ||
+mm/memory.c:1397:	    		!(vma->vm_flags & VM_PFNMAP))
+mm/memory.c:1437:	struct mm_struct *mm = vma->vm_mm;
+mm/memory.c:1490: * under mm->mmap_sem write-lock, so it can change vma->vm_flags.
+mm/memory.c:1499:	if (addr < vma->vm_start || addr >= vma->vm_end)
+mm/memory.c:1503:	if (!(vma->vm_flags & VM_MIXEDMAP)) {
+mm/memory.c:1504:		BUG_ON(down_read_trylock(&vma->vm_mm->mmap_sem));
+mm/memory.c:1505:		BUG_ON(vma->vm_flags & VM_PFNMAP);
+mm/memory.c:1506:		vma->vm_flags |= VM_MIXEDMAP;
+mm/memory.c:1508:	return insert_page(vma, addr, page, vma->vm_page_prot);
+mm/memory.c:1527:	unsigned long uaddr = vma->vm_start;
+mm/memory.c:1569:	return __vm_map_pages(vma, pages, num, vma->vm_pgoff);
+mm/memory.c:1596:	struct mm_struct *mm = vma->vm_mm;
+mm/memory.c:1673:	BUG_ON(!(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP)));
+mm/memory.c:1674:	BUG_ON((vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP)) ==
+mm/memory.c:1676:	BUG_ON((vma->vm_flags & VM_PFNMAP) && is_cow_mapping(vma->vm_flags));
+mm/memory.c:1677:	BUG_ON((vma->vm_flags & VM_MIXEDMAP) && pfn_valid(pfn));
+mm/memory.c:1679:	if (addr < vma->vm_start || addr >= vma->vm_end)
+mm/memory.c:1715:	return vmf_insert_pfn_prot(vma, addr, pfn, vma->vm_page_prot);
+mm/memory.c:1722:	if (vma->vm_flags & VM_MIXEDMAP)
+mm/memory.c:1736:	pgprot_t pgprot = vma->vm_page_prot;
+mm/memory.c:1741:	if (addr < vma->vm_start || addr >= vma->vm_end)
+mm/memory.c:1914:	struct mm_struct *mm = vma->vm_mm;
+mm/memory.c:1933:	 * un-COW'ed pages by matching them up with "vma->vm_pgoff".
+mm/memory.c:1936:	if (is_cow_mapping(vma->vm_flags)) {
+mm/memory.c:1937:		if (addr != vma->vm_start || end != vma->vm_end)
+mm/memory.c:1939:		vma->vm_pgoff = pfn;
+mm/memory.c:1946:	vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
+mm/memory.c:1977: * NOTE! Some drivers might want to tweak vma->vm_page_prot first to get
+mm/memory.c:2001:	if (vma->vm_pgoff > pages)
+mm/memory.c:2003:	pfn += vma->vm_pgoff;
+mm/memory.c:2004:	pages -= vma->vm_pgoff;
+mm/memory.c:2007:	vm_len = vma->vm_end - vma->vm_start;
+mm/memory.c:2012:	return io_remap_pfn_range(vma, vma->vm_start, pfn, vm_len, vma->vm_page_prot);
+mm/memory.c:2168:	struct mm_struct *mm = vma->vm_mm;
+mm/memory.c:2259:	struct file *vm_file = vma->vm_file;
+mm/memory.c:2285:	if (vmf->vma->vm_file &&
+mm/memory.c:2286:	    IS_SWAPFILE(vmf->vma->vm_file->f_mapping->host))
+mm/memory.c:2289:	ret = vmf->vma->vm_ops->page_mkwrite(vmf);
+mm/memory.c:2317:	bool page_mkwrite = vma->vm_ops && vma->vm_ops->page_mkwrite;
+mm/memory.c:2324:	 * pinned by vma->vm_file's reference.  We rely on unlock_page()'s
+mm/memory.c:2331:		file_update_time(vma->vm_file);
+mm/memory.c:2405:	struct mm_struct *mm = vma->vm_mm;
+mm/memory.c:2466:		entry = mk_pte(new_page, vma->vm_page_prot);
+mm/memory.c:2532:		if (page_copied && (vma->vm_flags & VM_LOCKED)) {
+mm/memory.c:2567:	WARN_ON_ONCE(!(vmf->vma->vm_flags & VM_SHARED));
+mm/memory.c:2568:	vmf->pte = pte_offset_map_lock(vmf->vma->vm_mm, vmf->pmd, vmf->address,
+mm/memory.c:2590:	if (vma->vm_ops && vma->vm_ops->pfn_mkwrite) {
+mm/memory.c:2595:		ret = vma->vm_ops->pfn_mkwrite(vmf);
+mm/memory.c:2612:	if (vma->vm_ops && vma->vm_ops->page_mkwrite) {
+mm/memory.c:2670:		if ((vma->vm_flags & (VM_WRITE|VM_SHARED)) ==
+mm/memory.c:2691:			vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
+mm/memory.c:2726:	} else if (unlikely((vma->vm_flags & (VM_WRITE|VM_SHARED)) ==
+mm/memory.c:2756:		vba = vma->vm_pgoff;
+mm/memory.c:2766:			((zba - vba) << PAGE_SHIFT) + vma->vm_start,
+mm/memory.c:2767:			((zea - vba + 1) << PAGE_SHIFT) + vma->vm_start,
+mm/memory.c:2855:	if (!pte_unmap_same(vma->vm_mm, vmf->pmd, vmf->pte, vmf->orig_pte))
+mm/memory.c:2861:			migration_entry_wait(vma->vm_mm, vmf->pmd,
+mm/memory.c:2906:			vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
+mm/memory.c:2917:		count_memcg_event_mm(vma->vm_mm, PGMAJFAULT);
+mm/memory.c:2928:	locked = lock_page_or_retry(page, vma->vm_mm, vmf->flags);
+mm/memory.c:2953:	if (mem_cgroup_try_charge_delay(page, vma->vm_mm, GFP_KERNEL,
+mm/memory.c:2962:	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+mm/memory.c:2982:	inc_mm_counter_fast(vma->vm_mm, MM_ANONPAGES);
+mm/memory.c:2983:	dec_mm_counter_fast(vma->vm_mm, MM_SWAPENTS);
+mm/memory.c:2984:	pte = mk_pte(page, vma->vm_page_prot);
+mm/memory.c:2994:	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, pte);
+mm/memory.c:2995:	arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
+mm/memory.c:3011:	    (vma->vm_flags & VM_LOCKED) || PageMlocked(page))
+mm/memory.c:3068:	if (vma->vm_flags & VM_SHARED)
+mm/memory.c:3081:	if (pte_alloc(vma->vm_mm, vmf->pmd))
+mm/memory.c:3090:			!mm_forbids_zeropage(vma->vm_mm)) {
+mm/memory.c:3092:						vma->vm_page_prot));
+mm/memory.c:3093:		vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
+mm/memory.c:3097:		ret = check_stable_address_space(vma->vm_mm);
+mm/memory.c:3115:	if (mem_cgroup_try_charge_delay(page, vma->vm_mm, GFP_KERNEL, &memcg,
+mm/memory.c:3126:	entry = mk_pte(page, vma->vm_page_prot);
+mm/memory.c:3127:	if (vma->vm_flags & VM_WRITE)
+mm/memory.c:3130:	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+mm/memory.c:3135:	ret = check_stable_address_space(vma->vm_mm);
+mm/memory.c:3147:	inc_mm_counter_fast(vma->vm_mm, MM_ANONPAGES);
+mm/memory.c:3152:	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, entry);
+mm/memory.c:3171: * released depending on flags and vma->vm_ops->fault() return value.
+mm/memory.c:3195:		vmf->prealloc_pte = pte_alloc_one(vmf->vma->vm_mm);
+mm/memory.c:3201:	ret = vma->vm_ops->fault(vmf);
+mm/memory.c:3240:		vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+mm/memory.c:3246:		mm_inc_nr_ptes(vma->vm_mm);
+mm/memory.c:3247:		pmd_populate(vma->vm_mm, vmf->pmd, vmf->prealloc_pte);
+mm/memory.c:3250:	} else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd))) {
+mm/memory.c:3277:	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+mm/memory.c:3287:	pgtable_trans_huge_deposit(vma->vm_mm, vmf->pmd, vmf->prealloc_pte);
+mm/memory.c:3292:	mm_inc_nr_ptes(vma->vm_mm);
+mm/memory.c:3316:		vmf->prealloc_pte = pte_alloc_one(vma->vm_mm);
+mm/memory.c:3322:	vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+mm/memory.c:3329:	entry = mk_huge_pmd(page, vma->vm_page_prot);
+mm/memory.c:3333:	add_mm_counter(vma->vm_mm, mm_counter_file(page), HPAGE_PMD_NR);
+mm/memory.c:3341:	set_pmd_at(vma->vm_mm, haddr, vmf->pmd, entry);
+mm/memory.c:3405:	entry = mk_pte(page, vma->vm_page_prot);
+mm/memory.c:3409:	if (write && !(vma->vm_flags & VM_SHARED)) {
+mm/memory.c:3410:		inc_mm_counter_fast(vma->vm_mm, MM_ANONPAGES);
+mm/memory.c:3415:		inc_mm_counter_fast(vma->vm_mm, mm_counter_file(page));
+mm/memory.c:3418:	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, entry);
+mm/memory.c:3449:	    !(vmf->vma->vm_flags & VM_SHARED))
+mm/memory.c:3458:	if (!(vmf->vma->vm_flags & VM_SHARED))
+mm/memory.c:3459:		ret = check_stable_address_space(vmf->vma->vm_mm);
+mm/memory.c:3538:	vmf->address = max(address & mask, vmf->vma->vm_start);
+mm/memory.c:3549:	end_pgoff = min3(end_pgoff, vma_pages(vmf->vma) + vmf->vma->vm_pgoff - 1,
+mm/memory.c:3553:		vmf->prealloc_pte = pte_alloc_one(vmf->vma->vm_mm);
+mm/memory.c:3559:	vmf->vma->vm_ops->map_pages(vmf, start_pgoff, end_pgoff);
+mm/memory.c:3592:	if (vma->vm_ops->map_pages && fault_around_bytes >> PAGE_SHIFT > 1) {
+mm/memory.c:3621:	if (mem_cgroup_try_charge_delay(vmf->cow_page, vma->vm_mm, GFP_KERNEL,
+mm/memory.c:3661:	if (vma->vm_ops->page_mkwrite) {
+mm/memory.c:3694:	struct mm_struct *vm_mm = vma->vm_mm;
+mm/memory.c:3700:	if (!vma->vm_ops->fault) {
+mm/memory.c:3708:			vmf->pte = pte_offset_map_lock(vmf->vma->vm_mm,
+mm/memory.c:3728:	else if (!(vma->vm_flags & VM_SHARED))
+mm/memory.c:3773:	vmf->ptl = pte_lockptr(vma->vm_mm, vmf->pmd);
+mm/memory.c:3785:	pte = pte_modify(old_pte, vma->vm_page_prot);
+mm/memory.c:3819:	if (page_mapcount(page) > 1 && (vma->vm_flags & VM_SHARED))
+mm/memory.c:3850:	if (vmf->vma->vm_ops->huge_fault)
+mm/memory.c:3851:		return vmf->vma->vm_ops->huge_fault(vmf, PE_SIZE_PMD);
+mm/memory.c:3860:	if (vmf->vma->vm_ops->huge_fault)
+mm/memory.c:3861:		return vmf->vma->vm_ops->huge_fault(vmf, PE_SIZE_PMD);
+mm/memory.c:3864:	VM_BUG_ON_VMA(vmf->vma->vm_flags & VM_SHARED, vmf->vma);
+mm/memory.c:3872:	return vma->vm_flags & (VM_READ | VM_EXEC | VM_WRITE);
+mm/memory.c:3881:	if (vmf->vma->vm_ops->huge_fault)
+mm/memory.c:3882:		return vmf->vma->vm_ops->huge_fault(vmf, PE_SIZE_PUD);
+mm/memory.c:3893:	if (vmf->vma->vm_ops->huge_fault)
+mm/memory.c:3894:		return vmf->vma->vm_ops->huge_fault(vmf, PE_SIZE_PUD);
+mm/memory.c:3967:	vmf->ptl = pte_lockptr(vmf->vma->vm_mm, vmf->pmd);
+mm/memory.c:4013:	struct mm_struct *mm = vma->vm_mm;
+mm/memory.c:4099:	count_memcg_event_mm(vma->vm_mm, PGFAULT);
+mm/memory.c:4117:		ret = hugetlb_fault(vma->vm_mm, vma, address, flags);
+mm/memory.c:4335:	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
+mm/memory.c:4338:	ret = follow_pte(vma->vm_mm, address, &ptep, &ptl);
+mm/memory.c:4356:	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
+mm/memory.c:4359:	if (follow_pte(vma->vm_mm, address, &ptep, &ptl))
+mm/memory.c:4433:			if (!vma || vma->vm_start > addr)
+mm/memory.c:4435:			if (vma->vm_ops && vma->vm_ops->access)
+mm/memory.c:4436:				ret = vma->vm_ops->access(vma, addr, buf,
+mm/memory.c:4525:	if (vma && vma->vm_file) {
+mm/memory.c:4526:		struct file *f = vma->vm_file;
+mm/memory.c:4535:					vma->vm_start,
+mm/memory.c:4536:					vma->vm_end - vma->vm_start);
+mm/ksm.c:526:	if (!vma || vma->vm_start > addr)
+mm/ksm.c:528:	if (!(vma->vm_flags & VM_MERGEABLE) || !vma->anon_vma)
+mm/ksm.c:850:		if (ksm_test_exit(vma->vm_mm))
+mm/ksm.c:980:		for (vma = mm->mmap; vma; vma = vma->vm_next) {
+mm/ksm.c:983:			if (!(vma->vm_flags & VM_MERGEABLE) || !vma->anon_vma)
+mm/ksm.c:986:						vma->vm_start, vma->vm_end);
+mm/ksm.c:1035:	struct mm_struct *mm = vma->vm_mm;
+mm/ksm.c:1122:	struct mm_struct *mm = vma->vm_mm;
+mm/ksm.c:1156:		newpte = mk_pte(kpage, vma->vm_page_prot);
+mm/ksm.c:1159:					       vma->vm_page_prot));
+mm/ksm.c:1254:	if ((vma->vm_flags & VM_LOCKED) && kpage && !err) {
+mm/ksm.c:1296:	rmap_item->anon_vma = vma->anon_vma;
+mm/ksm.c:1297:	get_anon_vma(vma->anon_vma);
+mm/ksm.c:2294:	for (; vma; vma = vma->vm_next) {
+mm/ksm.c:2295:		if (!(vma->vm_flags & VM_MERGEABLE))
+mm/ksm.c:2297:		if (ksm_scan.address < vma->vm_start)
+mm/ksm.c:2298:			ksm_scan.address = vma->vm_start;
+mm/ksm.c:2299:		if (!vma->anon_vma)
+mm/ksm.c:2300:			ksm_scan.address = vma->vm_end;
+mm/ksm.c:2302:		while (ksm_scan.address < vma->vm_end) {
+mm/ksm.c:2439:	struct mm_struct *mm = vma->vm_mm;
+mm/ksm.c:2477:		if (vma->anon_vma) {
+mm/ksm.c:2579:	} else if (anon_vma->root == vma->anon_vma->root &&
+mm/ksm.c:2623:		anon_vma_interval_tree_foreach(vmac, &anon_vma->rb_root,
+mm/ksm.c:2633:			if (addr < vma->vm_start || addr >= vma->vm_end)
+mm/ksm.c:2641:			if ((rmap_item->mm == vma->vm_mm) == search_new_forks)
+mm/memory-failure.c:274:	pgd = pgd_offset(vma->vm_mm, address);
+mm/memory-failure.c:463:			if (vma->vm_mm == t->mm)
+mm/memory-failure.c:498:			if (vma->vm_mm == t->mm)
+mm/frame_vector.c:72:	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
+mm/frame_vector.c:85:		while (ret < nr_frames && start + PAGE_SIZE <= vma->vm_end) {
+mm/frame_vector.c:99:		if (ret >= nr_frames || start < vma->vm_end)
+mm/frame_vector.c:102:	} while (vma && vma->vm_flags & (VM_IO | VM_PFNMAP));
+mm/hmm.c:295:	if (write_fault && walk->vma && !(walk->vma->vm_flags & VM_WRITE))
+mm/hmm.c:907:		if (vma == NULL || (vma->vm_flags & device_vma))
+mm/hmm.c:910:		if (!(vma->vm_flags & VM_READ)) {
+mm/hmm.c:925:		end = min(range->end, vma->vm_end);
+mm/hmm.c:927:		walk_page_range(vma->vm_mm, start, end, &hmm_walk_ops,
+mm/hmm.c:931:			ret = walk_page_range(vma->vm_mm, start, end,
+mm/vmacache.c:38:	if (vmacache_valid_mm(newvma->vm_mm))
+mm/vmacache.c:77:			if (WARN_ON_ONCE(vma->vm_mm != mm))
+mm/vmacache.c:80:			if (vma->vm_start <= addr && vma->vm_end > addr) {
+mm/vmacache.c:108:		if (vma && vma->vm_start == start && vma->vm_end == end) {
+mm/mlock.c:386:	pte = get_locked_pte(vma->vm_mm, start,	&ptl);
+mm/mlock.c:448:	vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+mm/mlock.c:522:	struct mm_struct *mm = vma->vm_mm;
+mm/mlock.c:527:	vm_flags_t old_flags = vma->vm_flags;
+mm/mlock.c:529:	if (newflags == vma->vm_flags || (vma->vm_flags & VM_SPECIAL) ||
+mm/mlock.c:535:	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
+mm/mlock.c:536:	*prev = vma_merge(mm, *prev, start, end, newflags, vma->anon_vma,
+mm/mlock.c:537:			  vma->vm_file, pgoff, vma_policy(vma),
+mm/mlock.c:538:			  vma->vm_userfaultfd_ctx);
+mm/mlock.c:544:	if (start != vma->vm_start) {
+mm/mlock.c:550:	if (end != vma->vm_end) {
+mm/mlock.c:574:		vma->vm_flags = newflags;
+mm/mlock.c:598:	if (!vma || vma->vm_start > start)
+mm/mlock.c:601:	prev = vma->vm_prev;
+mm/mlock.c:602:	if (start > vma->vm_start)
+mm/mlock.c:606:		vm_flags_t newflags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+mm/mlock.c:610:		/* Here we know that  vma->vm_start <= nstart < vma->vm_end. */
+mm/mlock.c:611:		tmp = vma->vm_end;
+mm/mlock.c:624:		if (!vma || vma->vm_start != nstart) {
+mm/mlock.c:652:	for (; vma ; vma = vma->vm_next) {
+mm/mlock.c:653:		if (start >= vma->vm_end)
+mm/mlock.c:655:		if (start + len <=  vma->vm_start)
+mm/mlock.c:657:		if (vma->vm_flags & VM_LOCKED) {
+mm/mlock.c:658:			if (start > vma->vm_start)
+mm/mlock.c:659:				count -= (start - vma->vm_start);
+mm/mlock.c:660:			if (start + len < vma->vm_end) {
+mm/mlock.c:661:				count += start + len - vma->vm_start;
+mm/mlock.c:664:			count += vma->vm_end - vma->vm_start;
+mm/mlock.c:788:		newflags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+mm/mlock.c:792:		mlock_fixup(vma, &prev, vma->vm_start, vma->vm_end, newflags);
+mm/nommu.c:104:			return vma->vm_end - vma->vm_start;
+mm/nommu.c:127:	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
+mm/nommu.c:169:			vma->vm_flags |= VM_USERMAP;
+mm/nommu.c:592:	BUG_ON(!vma->vm_region);
+mm/nommu.c:595:	vma->vm_mm = mm;
+mm/nommu.c:598:	if (vma->vm_file) {
+mm/nommu.c:599:		mapping = vma->vm_file->f_mapping;
+mm/nommu.c:617:		if (vma->vm_start < pvma->vm_start)
+mm/nommu.c:619:		else if (vma->vm_start > pvma->vm_start) {
+mm/nommu.c:622:		} else if (vma->vm_end < pvma->vm_end)
+mm/nommu.c:624:		else if (vma->vm_end > pvma->vm_end) {
+mm/nommu.c:636:	rb_link_node(&vma->vm_rb, parent, p);
+mm/nommu.c:637:	rb_insert_color(&vma->vm_rb, &mm->mm_rb);
+mm/nommu.c:654:	struct mm_struct *mm = vma->vm_mm;
+mm/nommu.c:667:	if (vma->vm_file) {
+mm/nommu.c:668:		mapping = vma->vm_file->f_mapping;
+mm/nommu.c:678:	rb_erase(&vma->vm_rb, &mm->mm_rb);
+mm/nommu.c:680:	if (vma->vm_prev)
+mm/nommu.c:681:		vma->vm_prev->vm_next = vma->vm_next;
+mm/nommu.c:683:		mm->mmap = vma->vm_next;
+mm/nommu.c:685:	if (vma->vm_next)
+mm/nommu.c:686:		vma->vm_next->vm_prev = vma->vm_prev;
+mm/nommu.c:694:	if (vma->vm_ops && vma->vm_ops->close)
+mm/nommu.c:695:		vma->vm_ops->close(vma);
+mm/nommu.c:696:	if (vma->vm_file)
+mm/nommu.c:697:		fput(vma->vm_file);
+mm/nommu.c:698:	put_nommu_region(vma->vm_region);
+mm/nommu.c:717:	for (vma = mm->mmap; vma; vma = vma->vm_next) {
+mm/nommu.c:718:		if (vma->vm_start > addr)
+mm/nommu.c:720:		if (vma->vm_end > addr) {
+mm/nommu.c:766:	for (vma = mm->mmap; vma; vma = vma->vm_next) {
+mm/nommu.c:767:		if (vma->vm_start < addr)
+mm/nommu.c:769:		if (vma->vm_start > addr)
+mm/nommu.c:771:		if (vma->vm_end == end) {
+mm/nommu.c:987:	ret = call_mmap(vma->vm_file, vma);
+mm/nommu.c:989:		vma->vm_region->vm_top = vma->vm_region->vm_end;
+mm/nommu.c:1018:		ret = call_mmap(vma->vm_file, vma);
+mm/nommu.c:1021:			BUG_ON(!(vma->vm_flags & VM_MAYSHARE));
+mm/nommu.c:1022:			vma->vm_region->vm_top = vma->vm_region->vm_end;
+mm/nommu.c:1052:	region->vm_flags = vma->vm_flags |= VM_MAPPED_COPY;
+mm/nommu.c:1057:	vma->vm_start = region->vm_start;
+mm/nommu.c:1058:	vma->vm_end   = region->vm_start + len;
+mm/nommu.c:1060:	if (vma->vm_file) {
+mm/nommu.c:1064:		fpos = vma->vm_pgoff;
+mm/nommu.c:1067:		ret = kernel_read(vma->vm_file, base, len, &fpos);
+mm/nommu.c:1083:	region->vm_start = vma->vm_start = 0;
+mm/nommu.c:1084:	region->vm_end   = vma->vm_end = 0;
+mm/nommu.c:1144:	vma->vm_flags = vm_flags;
+mm/nommu.c:1145:	vma->vm_pgoff = pgoff;
+mm/nommu.c:1149:		vma->vm_file = get_file(file);
+mm/nommu.c:1201:			vma->vm_region = pregion;
+mm/nommu.c:1204:			vma->vm_start = start;
+mm/nommu.c:1205:			vma->vm_end = start + len;
+mm/nommu.c:1208:				vma->vm_flags |= VM_MAPPED_COPY;
+mm/nommu.c:1212:					vma->vm_region = NULL;
+mm/nommu.c:1213:					vma->vm_start = 0;
+mm/nommu.c:1214:					vma->vm_end = 0;
+mm/nommu.c:1248:				vma->vm_start = region->vm_start = addr;
+mm/nommu.c:1249:				vma->vm_end = region->vm_end = addr + len;
+mm/nommu.c:1254:	vma->vm_region = region;
+mm/nommu.c:1259:	if (file && vma->vm_flags & VM_SHARED)
+mm/nommu.c:1268:	if (!vma->vm_file &&
+mm/nommu.c:1275:	result = vma->vm_start;
+mm/nommu.c:1284:	if (vma->vm_flags & VM_EXEC && !region->vm_icache_flushed) {
+mm/nommu.c:1299:	if (vma->vm_file)
+mm/nommu.c:1300:		fput(vma->vm_file);
+mm/nommu.c:1392:	if (vma->vm_file)
+mm/nommu.c:1409:	*region = *vma->vm_region;
+mm/nommu.c:1412:	npages = (addr - vma->vm_start) >> PAGE_SHIFT;
+mm/nommu.c:1426:	delete_nommu_region(vma->vm_region);
+mm/nommu.c:1428:		vma->vm_region->vm_start = vma->vm_start = addr;
+mm/nommu.c:1429:		vma->vm_region->vm_pgoff = vma->vm_pgoff += npages;
+mm/nommu.c:1431:		vma->vm_region->vm_end = vma->vm_end = addr;
+mm/nommu.c:1432:		vma->vm_region->vm_top = addr;
+mm/nommu.c:1434:	add_nommu_region(vma->vm_region);
+mm/nommu.c:1455:	if (from > vma->vm_start)
+mm/nommu.c:1456:		vma->vm_end = from;
+mm/nommu.c:1458:		vma->vm_start = to;
+mm/nommu.c:1462:	region = vma->vm_region;
+mm/nommu.c:1511:	if (vma->vm_file) {
+mm/nommu.c:1513:			if (start > vma->vm_start)
+mm/nommu.c:1515:			if (end == vma->vm_end)
+mm/nommu.c:1517:			vma = vma->vm_next;
+mm/nommu.c:1522:		if (start == vma->vm_start && end == vma->vm_end)
+mm/nommu.c:1524:		if (start < vma->vm_start || end > vma->vm_end)
+mm/nommu.c:1528:		if (end != vma->vm_end && offset_in_page(end))
+mm/nommu.c:1530:		if (start != vma->vm_start && end != vma->vm_end) {
+mm/nommu.c:1575:		mm->mmap = vma->vm_next;
+mm/nommu.c:1619:	if (vma->vm_end != vma->vm_start + old_len)
+mm/nommu.c:1622:	if (vma->vm_flags & VM_MAYSHARE)
+mm/nommu.c:1625:	if (new_len > vma->vm_region->vm_end - vma->vm_region->vm_start)
+mm/nommu.c:1629:	vma->vm_end = vma->vm_start + new_len;
+mm/nommu.c:1630:	return vma->vm_start;
+mm/nommu.c:1657:	vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
+mm/nommu.c:1665:	unsigned long vm_len = vma->vm_end - vma->vm_start;
+mm/nommu.c:1667:	pfn += vma->vm_pgoff;
+mm/nommu.c:1668:	return io_remap_pfn_range(vma, vma->vm_start, pfn, vm_len, vma->vm_page_prot);
+mm/nommu.c:1675:	unsigned int size = vma->vm_end - vma->vm_start;
+mm/nommu.c:1677:	if (!(vma->vm_flags & VM_USERMAP))
+mm/nommu.c:1680:	vma->vm_start = (unsigned long)(addr + (pgoff << PAGE_SHIFT));
+mm/nommu.c:1681:	vma->vm_end = vma->vm_start + size;
+mm/nommu.c:1720:		if (addr + len >= vma->vm_end)
+mm/nommu.c:1721:			len = vma->vm_end - addr;
+mm/nommu.c:1724:		if (write && vma->vm_flags & VM_MAYWRITE)
+mm/nommu.c:1727:		else if (!write && vma->vm_flags & VM_MAYREAD)
+mm/nommu.c:1809:		if (vma->vm_flags & VM_SHARED) {
+mm/nommu.c:1823:		if (!(vma->vm_flags & VM_SHARED))
+mm/nommu.c:1826:		region = vma->vm_region;
+mm/khugepaged.c:327:		if (mm_has_pgste(vma->vm_mm))
+mm/khugepaged.c:415:	    test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags))
+mm/khugepaged.c:418:	if (shmem_file(vma->vm_file) ||
+mm/khugepaged.c:420:	     vma->vm_file &&
+mm/khugepaged.c:424:		return IS_ALIGNED((vma->vm_start >> PAGE_SHIFT) - vma->vm_pgoff,
+mm/khugepaged.c:427:	if (!vma->anon_vma || vma->vm_ops)
+mm/khugepaged.c:480:	hstart = (vma->vm_start + ~HPAGE_PMD_MASK) & HPAGE_PMD_MASK;
+mm/khugepaged.c:481:	hend = vma->vm_end & HPAGE_PMD_MASK;
+mm/khugepaged.c:628:		    mmu_notifier_test_young(vma->vm_mm, address))
+mm/khugepaged.c:662:			add_mm_counter(vma->vm_mm, MM_ANONPAGES, 1);
+mm/khugepaged.c:672:				pte_clear(vma->vm_mm, address, _pte);
+mm/khugepaged.c:690:			pte_clear(vma->vm_mm, address, _pte);
+mm/khugepaged.c:888:	hstart = (vma->vm_start + ~HPAGE_PMD_MASK) & HPAGE_PMD_MASK;
+mm/khugepaged.c:889:	hend = vma->vm_end & HPAGE_PMD_MASK;
+mm/khugepaged.c:892:	if (!hugepage_vma_check(vma, vma->vm_flags))
+mm/khugepaged.c:895:	if (!vma->anon_vma || vma->vm_ops)
+mm/khugepaged.c:1044:	anon_vma_lock_write(vma->anon_vma);
+mm/khugepaged.c:1079:		anon_vma_unlock_write(vma->anon_vma);
+mm/khugepaged.c:1088:	anon_vma_unlock_write(vma->anon_vma);
+mm/khugepaged.c:1095:	_pmd = mk_huge_pmd(new_page, vma->vm_page_prot);
+mm/khugepaged.c:1229:		    mmu_notifier_test_young(vma->vm_mm, address))
+mm/khugepaged.c:1316:	if (!vma || !vma->vm_file ||
+mm/khugepaged.c:1317:	    vma->vm_start > haddr || vma->vm_end < haddr + HPAGE_PMD_SIZE)
+mm/khugepaged.c:1326:	if (!hugepage_vma_check(vma, vma->vm_flags | VM_HUGEPAGE))
+mm/khugepaged.c:1329:	hpage = find_lock_page(vma->vm_file->f_mapping,
+mm/khugepaged.c:1383:		add_mm_counter(vma->vm_mm, mm_counter_file(hpage), -count);
+mm/khugepaged.c:1387:	ptl = pmd_lock(vma->vm_mm, pmd);
+mm/khugepaged.c:1436:		 * Check vma->anon_vma to exclude MAP_PRIVATE mappings that
+mm/khugepaged.c:1441:		 * Not that vma->anon_vma check is racy: it can be set up after
+mm/khugepaged.c:1451:		if (vma->anon_vma)
+mm/khugepaged.c:1453:		addr = vma->vm_start + ((pgoff - vma->vm_pgoff) << PAGE_SHIFT);
+mm/khugepaged.c:1456:		if (vma->vm_end < addr + HPAGE_PMD_SIZE)
+mm/khugepaged.c:1458:		mm = vma->vm_mm;
+mm/khugepaged.c:1952:	for (; vma; vma = vma->vm_next) {
+mm/khugepaged.c:1960:		if (!hugepage_vma_check(vma, vma->vm_flags)) {
+mm/khugepaged.c:1965:		hstart = (vma->vm_start + ~HPAGE_PMD_MASK) & HPAGE_PMD_MASK;
+mm/khugepaged.c:1966:		hend = vma->vm_end & HPAGE_PMD_MASK;
+mm/khugepaged.c:1984:			if (IS_ENABLED(CONFIG_SHMEM) && vma->vm_file) {
+mm/khugepaged.c:1989:				if (shmem_file(vma->vm_file)
+mm/khugepaged.c:1992:				file = get_file(vma->vm_file);
+mm/mmap.c:121:/* Update vma->vm_page_prot to reflect vma->vm_flags. */
+mm/mmap.c:124:	unsigned long vm_flags = vma->vm_flags;
+mm/mmap.c:127:	vm_page_prot = vm_pgprot_modify(vma->vm_page_prot, vm_flags);
+mm/mmap.c:132:	/* remove_protection_ptes reads vma->vm_page_prot without mmap_sem */
+mm/mmap.c:133:	WRITE_ONCE(vma->vm_page_prot, vm_page_prot);
+mm/mmap.c:142:	if (vma->vm_flags & VM_DENYWRITE)
+mm/mmap.c:144:	if (vma->vm_flags & VM_SHARED)
+mm/mmap.c:158:	struct file *file = vma->vm_file;
+mm/mmap.c:173:	struct vm_area_struct *next = vma->vm_next;
+mm/mmap.c:176:	if (vma->vm_ops && vma->vm_ops->close)
+mm/mmap.c:177:		vma->vm_ops->close(vma);
+mm/mmap.c:178:	if (vma->vm_file)
+mm/mmap.c:179:		fput(vma->vm_file);
+mm/mmap.c:297:	if (vma->vm_prev) {
+mm/mmap.c:298:		prev_end = vm_end_gap(vma->vm_prev);
+mm/mmap.c:311:	if (vma->vm_rb.rb_left) {
+mm/mmap.c:312:		subtree_gap = rb_entry(vma->vm_rb.rb_left,
+mm/mmap.c:317:	if (vma->vm_rb.rb_right) {
+mm/mmap.c:318:		subtree_gap = rb_entry(vma->vm_rb.rb_right,
+mm/mmap.c:336:		if (vma->vm_start < prev) {
+mm/mmap.c:338:				  vma->vm_start, prev);
+mm/mmap.c:341:		if (vma->vm_start < pend) {
+mm/mmap.c:343:				  vma->vm_start, pend);
+mm/mmap.c:346:		if (vma->vm_start > vma->vm_end) {
+mm/mmap.c:348:				  vma->vm_start, vma->vm_end);
+mm/mmap.c:352:		if (vma->rb_subtree_gap != vma_compute_subtree_gap(vma)) {
+mm/mmap.c:354:			       vma->rb_subtree_gap,
+mm/mmap.c:361:		prev = vma->vm_start;
+mm/mmap.c:362:		pend = vma->vm_end;
+mm/mmap.c:382:			vma->rb_subtree_gap != vma_compute_subtree_gap(vma),
+mm/mmap.c:395:		struct anon_vma *anon_vma = vma->anon_vma;
+mm/mmap.c:400:			list_for_each_entry(avc, &vma->anon_vma_chain, same_vma)
+mm/mmap.c:406:		vma = vma->vm_next;
+mm/mmap.c:436: * Update augmented rbtree rb_subtree_gap values after vma->vm_start or
+mm/mmap.c:437: * vma->vm_prev->vm_end values changed, without modifying the vma's position
+mm/mmap.c:446:	vma_gap_callbacks_propagate(&vma->vm_rb, NULL);
+mm/mmap.c:455:	rb_insert_augmented(&vma->vm_rb, root, &vma_gap_callbacks);
+mm/mmap.c:465:	rb_erase_augmented(&vma->vm_rb, root, &vma_gap_callbacks);
+mm/mmap.c:513:	list_for_each_entry(avc, &vma->anon_vma_chain, same_vma)
+mm/mmap.c:514:		anon_vma_interval_tree_remove(avc, &avc->anon_vma->rb_root);
+mm/mmap.c:522:	list_for_each_entry(avc, &vma->anon_vma_chain, same_vma)
+mm/mmap.c:523:		anon_vma_interval_tree_insert(avc, &avc->anon_vma->rb_root);
+mm/mmap.c:571:	nr_pages = (min(end, vma->vm_end) -
+mm/mmap.c:572:		max(addr, vma->vm_start)) >> PAGE_SHIFT;
+mm/mmap.c:575:	for (vma = vma->vm_next; vma; vma = vma->vm_next) {
+mm/mmap.c:578:		if (vma->vm_start > end)
+mm/mmap.c:581:		overlap_len = min(end, vma->vm_end) - vma->vm_start;
+mm/mmap.c:592:	if (vma->vm_next)
+mm/mmap.c:593:		vma_gap_update(vma->vm_next);
+mm/mmap.c:598:	 * vma->vm_prev wasn't known when we followed the rbtree to find the
+mm/mmap.c:606:	rb_link_node(&vma->vm_rb, rb_parent, rb_link);
+mm/mmap.c:607:	vma->rb_subtree_gap = 0;
+mm/mmap.c:616:	file = vma->vm_file;
+mm/mmap.c:620:		if (vma->vm_flags & VM_DENYWRITE)
+mm/mmap.c:622:		if (vma->vm_flags & VM_SHARED)
+mm/mmap.c:646:	if (vma->vm_file) {
+mm/mmap.c:647:		mapping = vma->vm_file->f_mapping;
+mm/mmap.c:670:	if (find_vma_links(mm, vma->vm_start, vma->vm_end,
+mm/mmap.c:686:	next = vma->vm_next;
+mm/mmap.c:690:		prev = vma->vm_prev;
+mm/mmap.c:721:	struct mm_struct *mm = vma->vm_mm;
+mm/mmap.c:722:	struct vm_area_struct *next = vma->vm_next, *orig_vma = vma;
+mm/mmap.c:726:	struct file *file = vma->vm_file;
+mm/mmap.c:789:		} else if (end < vma->vm_end) {
+mm/mmap.c:795:			adjust_next = -((vma->vm_end - end) >> PAGE_SHIFT);
+mm/mmap.c:821:		uprobe_munmap(vma, vma->vm_start, vma->vm_end);
+mm/mmap.c:838:	anon_vma = vma->anon_vma;
+mm/mmap.c:857:	if (start != vma->vm_start) {
+mm/mmap.c:858:		vma->vm_start = start;
+mm/mmap.c:861:	if (end != vma->vm_end) {
+mm/mmap.c:862:		vma->vm_end = end;
+mm/mmap.c:865:	vma->vm_pgoff = pgoff;
+mm/mmap.c:949:			 * If "next" was removed and vma->vm_end was
+mm/mmap.c:952:			 * "vma->vm_next" gap must be updated.
+mm/mmap.c:954:			next = vma->vm_next;
+mm/mmap.c:991:			 * "vma" has vma->vm_end == next->vm_end so
+mm/mmap.c:1022:	if ((vma->vm_flags ^ vm_flags) & ~VM_SOFTDIRTY)
+mm/mmap.c:1024:	if (vma->vm_file != file)
+mm/mmap.c:1026:	if (vma->vm_ops && vma->vm_ops->close)
+mm/mmap.c:1042:		list_is_singular(&vma->anon_vma_chain)))
+mm/mmap.c:1065:	    is_mergeable_anon_vma(anon_vma, vma->anon_vma, vma)) {
+mm/mmap.c:1066:		if (vma->vm_pgoff == vm_pgoff)
+mm/mmap.c:1086:	    is_mergeable_anon_vma(anon_vma, vma->anon_vma, vma)) {
+mm/mmap.c:1089:		if (vma->vm_pgoff + vm_pglen == vm_pgoff)
+mm/mmap.c:1147:	 * We later require that vma->vm_flags == vm_flags,
+mm/mmap.c:1148:	 * so this tests vma->vm_flags & VM_SPECIAL, too.
+mm/mmap.c:1296:	near = vma->vm_next;
+mm/mmap.c:1304:	near = vma->vm_prev;
+mm/mmap.c:1443:		if (vma && vma->vm_start < addr + len)
+mm/mmap.c:1666:	vm_flags_t vm_flags = vma->vm_flags;
+mm/mmap.c:1667:	const struct vm_operations_struct *vm_ops = vma->vm_ops;
+mm/mmap.c:1692:	return vma->vm_file && vma->vm_file->f_mapping &&
+mm/mmap.c:1693:		mapping_cap_account_dirty(vma->vm_file->f_mapping);
+mm/mmap.c:1773:	vma->vm_start = addr;
+mm/mmap.c:1774:	vma->vm_end = addr + len;
+mm/mmap.c:1775:	vma->vm_flags = vm_flags;
+mm/mmap.c:1776:	vma->vm_page_prot = vm_get_page_prot(vm_flags);
+mm/mmap.c:1777:	vma->vm_pgoff = pgoff;
+mm/mmap.c:1791:		/* ->mmap() can change vma->vm_file, but must guarantee that
+mm/mmap.c:1796:		vma->vm_file = get_file(file);
+mm/mmap.c:1808:		WARN_ON_ONCE(addr != vma->vm_start);
+mm/mmap.c:1810:		addr = vma->vm_start;
+mm/mmap.c:1811:		vm_flags = vma->vm_flags;
+mm/mmap.c:1828:	file = vma->vm_file;
+mm/mmap.c:1837:			vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+mm/mmap.c:1852:	vma->vm_flags |= VM_SOFTDIRTY;
+mm/mmap.c:1859:	vma->vm_file = NULL;
+mm/mmap.c:1863:	unmap_region(mm, vma, prev, vma->vm_start, vma->vm_end);
+mm/mmap.c:1883:	 * - gap_start = vma->vm_prev->vm_end <= info->high_limit - length;
+mm/mmap.c:1884:	 * - gap_end   = vma->vm_start        >= info->low_limit  + length;
+mm/mmap.c:1910:	if (vma->rb_subtree_gap < length)
+mm/mmap.c:1916:		if (gap_end >= low_limit && vma->vm_rb.rb_left) {
+mm/mmap.c:1918:				rb_entry(vma->vm_rb.rb_left,
+mm/mmap.c:1926:		gap_start = vma->vm_prev ? vm_end_gap(vma->vm_prev) : 0;
+mm/mmap.c:1936:		if (vma->vm_rb.rb_right) {
+mm/mmap.c:1938:				rb_entry(vma->vm_rb.rb_right,
+mm/mmap.c:1948:			struct rb_node *prev = &vma->vm_rb;
+mm/mmap.c:1953:			if (prev == vma->vm_rb.rb_left) {
+mm/mmap.c:1954:				gap_start = vm_end_gap(vma->vm_prev);
+mm/mmap.c:2014:	if (vma->rb_subtree_gap < length)
+mm/mmap.c:2019:		gap_start = vma->vm_prev ? vm_end_gap(vma->vm_prev) : 0;
+mm/mmap.c:2020:		if (gap_start <= high_limit && vma->vm_rb.rb_right) {
+mm/mmap.c:2022:				rb_entry(vma->vm_rb.rb_right,
+mm/mmap.c:2040:		if (vma->vm_rb.rb_left) {
+mm/mmap.c:2042:				rb_entry(vma->vm_rb.rb_left,
+mm/mmap.c:2052:			struct rb_node *prev = &vma->vm_rb;
+mm/mmap.c:2057:			if (prev == vma->vm_rb.rb_right) {
+mm/mmap.c:2058:				gap_start = vma->vm_prev ?
+mm/mmap.c:2059:					vm_end_gap(vma->vm_prev) : 0;
+mm/mmap.c:2282:		*pprev = vma->vm_prev;
+mm/mmap.c:2299:	struct mm_struct *mm = vma->vm_mm;
+mm/mmap.c:2303:	if (!may_expand_vm(mm, vma->vm_flags, grow))
+mm/mmap.c:2311:	if (vma->vm_flags & VM_LOCKED) {
+mm/mmap.c:2322:	new_start = (vma->vm_flags & VM_GROWSUP) ? vma->vm_start :
+mm/mmap.c:2323:			vma->vm_end - size;
+mm/mmap.c:2324:	if (is_hugepage_only_range(vma->vm_mm, new_start, size))
+mm/mmap.c:2340: * vma is the last one with address > vma->vm_end.  Have to extend vma.
+mm/mmap.c:2344:	struct mm_struct *mm = vma->vm_mm;
+mm/mmap.c:2349:	if (!(vma->vm_flags & VM_GROWSUP))
+mm/mmap.c:2365:	next = vma->vm_next;
+mm/mmap.c:2378:	 * vma->vm_start/vm_end cannot change under us because the caller
+mm/mmap.c:2382:	anon_vma_lock_write(vma->anon_vma);
+mm/mmap.c:2385:	if (address > vma->vm_end) {
+mm/mmap.c:2388:		size = address - vma->vm_start;
+mm/mmap.c:2389:		grow = (address - vma->vm_end) >> PAGE_SHIFT;
+mm/mmap.c:2392:		if (vma->vm_pgoff + (size >> PAGE_SHIFT) >= vma->vm_pgoff) {
+mm/mmap.c:2407:				if (vma->vm_flags & VM_LOCKED)
+mm/mmap.c:2409:				vm_stat_account(mm, vma->vm_flags, grow);
+mm/mmap.c:2411:				vma->vm_end = address;
+mm/mmap.c:2413:				if (vma->vm_next)
+mm/mmap.c:2414:					vma_gap_update(vma->vm_next);
+mm/mmap.c:2423:	anon_vma_unlock_write(vma->anon_vma);
+mm/mmap.c:2424:	khugepaged_enter_vma_merge(vma, vma->vm_flags);
+mm/mmap.c:2431: * vma is the first one with address < vma->vm_start.  Have to extend vma.
+mm/mmap.c:2436:	struct mm_struct *mm = vma->vm_mm;
+mm/mmap.c:2445:	prev = vma->vm_prev;
+mm/mmap.c:2458:	 * vma->vm_start/vm_end cannot change under us because the caller
+mm/mmap.c:2462:	anon_vma_lock_write(vma->anon_vma);
+mm/mmap.c:2465:	if (address < vma->vm_start) {
+mm/mmap.c:2468:		size = vma->vm_end - address;
+mm/mmap.c:2469:		grow = (vma->vm_start - address) >> PAGE_SHIFT;
+mm/mmap.c:2472:		if (grow <= vma->vm_pgoff) {
+mm/mmap.c:2487:				if (vma->vm_flags & VM_LOCKED)
+mm/mmap.c:2489:				vm_stat_account(mm, vma->vm_flags, grow);
+mm/mmap.c:2491:				vma->vm_start = address;
+mm/mmap.c:2492:				vma->vm_pgoff -= grow;
+mm/mmap.c:2501:	anon_vma_unlock_write(vma->anon_vma);
+mm/mmap.c:2502:	khugepaged_enter_vma_merge(vma, vma->vm_flags);
+mm/mmap.c:2536:	if (vma && (vma->vm_start <= addr))
+mm/mmap.c:2561:	if (vma->vm_start <= addr)
+mm/mmap.c:2563:	if (!(vma->vm_flags & VM_GROWSDOWN))
+mm/mmap.c:2568:	start = vma->vm_start;
+mm/mmap.c:2571:	if (vma->vm_flags & VM_LOCKED)
+mm/mmap.c:2594:		if (vma->vm_flags & VM_ACCOUNT)
+mm/mmap.c:2596:		vm_stat_account(mm, vma->vm_flags, -nrpages);
+mm/mmap.c:2636:	vma->vm_prev = NULL;
+mm/mmap.c:2641:		vma = vma->vm_next;
+mm/mmap.c:2642:	} while (vma && vma->vm_start < end);
+mm/mmap.c:2645:		vma->vm_prev = prev;
+mm/mmap.c:2649:	tail_vma->vm_next = NULL;
+mm/mmap.c:2659:	if (vma && (vma->vm_flags & VM_GROWSDOWN))
+mm/mmap.c:2676:	if (vma->vm_ops && vma->vm_ops->split) {
+mm/mmap.c:2677:		err = vma->vm_ops->split(vma, addr);
+mm/mmap.c:2690:		new->vm_pgoff += ((addr - vma->vm_start) >> PAGE_SHIFT);
+mm/mmap.c:2708:		err = vma_adjust(vma, addr, vma->vm_end, vma->vm_pgoff +
+mm/mmap.c:2711:		err = vma_adjust(vma, vma->vm_start, addr, vma->vm_pgoff, new);
+mm/mmap.c:2773:	prev = vma->vm_prev;
+mm/mmap.c:2774:	/* we have  start < vma->vm_end  */
+mm/mmap.c:2777:	if (vma->vm_start >= end)
+mm/mmap.c:2787:	if (start > vma->vm_start) {
+mm/mmap.c:2795:		if (end < vma->vm_end && mm->map_count >= sysctl_max_map_count)
+mm/mmap.c:2936:	if (!vma || !(vma->vm_flags & VM_SHARED))
+mm/mmap.c:2939:	if (start < vma->vm_start)
+mm/mmap.c:2942:	if (start + size > vma->vm_end) {
+mm/mmap.c:2945:		for (next = vma->vm_next; next; next = next->vm_next) {
+mm/mmap.c:2950:			if (next->vm_file != vma->vm_file)
+mm/mmap.c:2953:			if (next->vm_flags != vma->vm_flags)
+mm/mmap.c:2964:	prot |= vma->vm_flags & VM_READ ? PROT_READ : 0;
+mm/mmap.c:2965:	prot |= vma->vm_flags & VM_WRITE ? PROT_WRITE : 0;
+mm/mmap.c:2966:	prot |= vma->vm_flags & VM_EXEC ? PROT_EXEC : 0;
+mm/mmap.c:2970:	if (vma->vm_flags & VM_LOCKED) {
+mm/mmap.c:2989:	file = get_file(vma->vm_file);
+mm/mmap.c:2990:	ret = do_mmap_pgoff(vma->vm_file, start, size,
+mm/mmap.c:3063:	vma->vm_start = addr;
+mm/mmap.c:3064:	vma->vm_end = addr + len;
+mm/mmap.c:3065:	vma->vm_pgoff = pgoff;
+mm/mmap.c:3066:	vma->vm_flags = flags;
+mm/mmap.c:3067:	vma->vm_page_prot = vm_get_page_prot(flags);
+mm/mmap.c:3075:	vma->vm_flags |= VM_SOFTDIRTY;
+mm/mmap.c:3149:			if (vma->vm_flags & VM_LOCKED)
+mm/mmap.c:3151:			vma = vma->vm_next;
+mm/mmap.c:3175:		if (vma->vm_flags & VM_ACCOUNT)
+mm/mmap.c:3192:	if (find_vma_links(mm, vma->vm_start, vma->vm_end,
+mm/mmap.c:3195:	if ((vma->vm_flags & VM_ACCOUNT) &&
+mm/mmap.c:3212:		BUG_ON(vma->anon_vma);
+mm/mmap.c:3213:		vma->vm_pgoff = vma->vm_start >> PAGE_SHIFT;
+mm/mmap.c:3229:	unsigned long vma_start = vma->vm_start;
+mm/mmap.c:3230:	struct mm_struct *mm = vma->vm_mm;
+mm/mmap.c:3239:	if (unlikely(vma_is_anonymous(vma) && !vma->anon_vma)) {
+mm/mmap.c:3246:	new_vma = vma_merge(mm, prev, addr, addr + len, vma->vm_flags,
+mm/mmap.c:3247:			    vma->anon_vma, vma->vm_file, pgoff, vma_policy(vma),
+mm/mmap.c:3248:			    vma->vm_userfaultfd_ctx);
+mm/mmap.c:3253:		if (unlikely(vma_start >= new_vma->vm_start &&
+mm/mmap.c:3254:			     vma_start < new_vma->vm_end)) {
+mm/mmap.c:3259:			 * reset the dst vma->vm_pgoff to the
+mm/mmap.c:3270:		*need_rmap_locks = (new_vma->vm_pgoff <= vma->vm_pgoff);
+mm/mmap.c:3275:		new_vma->vm_start = addr;
+mm/mmap.c:3276:		new_vma->vm_end = addr + len;
+mm/mmap.c:3277:		new_vma->vm_pgoff = pgoff;
+mm/mmap.c:3282:		if (new_vma->vm_file)
+mm/mmap.c:3283:			get_file(new_vma->vm_file);
+mm/mmap.c:3284:		if (new_vma->vm_ops && new_vma->vm_ops->open)
+mm/mmap.c:3285:			new_vma->vm_ops->open(new_vma);
+mm/mmap.c:3351:	return ((struct vm_special_mapping *)vma->vm_private_data)->name;
+mm/mmap.c:3356:	struct vm_special_mapping *sm = new_vma->vm_private_data;
+mm/mmap.c:3358:	if (WARN_ON_ONCE(current->mm != new_vma->vm_mm))
+mm/mmap.c:3385:	if (vma->vm_ops == &legacy_special_mapping_vmops) {
+mm/mmap.c:3386:		pages = vma->vm_private_data;
+mm/mmap.c:3388:		struct vm_special_mapping *sm = vma->vm_private_data;
+mm/mmap.c:3422:	vma->vm_start = addr;
+mm/mmap.c:3423:	vma->vm_end = addr + len;
+mm/mmap.c:3425:	vma->vm_flags = vm_flags | mm->def_flags | VM_DONTEXPAND | VM_SOFTDIRTY;
+mm/mmap.c:3426:	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+mm/mmap.c:3428:	vma->vm_ops = ops;
+mm/mmap.c:3429:	vma->vm_private_data = priv;
+mm/mmap.c:3435:	vm_stat_account(mm, vma->vm_flags, len >> PAGE_SHIFT);
+mm/mmap.c:3449:	return vma->vm_private_data == sm &&
+mm/mmap.c:3450:		(vma->vm_ops == &special_mapping_vmops ||
+mm/mmap.c:3451:		 vma->vm_ops == &legacy_special_mapping_vmops);
+mm/mmap.c:3487:	if (!test_bit(0, (unsigned long *) &anon_vma->root->rb_root.rb_root.rb_node)) {
+mm/mmap.c:3492:		down_write_nest_lock(&anon_vma->root->rwsem, &mm->mmap_sem);
+mm/mmap.c:3495:		 * anon_vma->root->rwsem. If some other vma in this mm shares
+mm/mmap.c:3500:		 * anon_vma->root->rwsem.
+mm/mmap.c:3503:				       &anon_vma->root->rb_root.rb_root.rb_node))
+mm/mmap.c:3543: * The LSB in anon_vma->rb_root.rb_node and the AS_MM_ALL_LOCKS bitflag in
+mm/mmap.c:3552: *   - all anon_vma->rwseml
+mm/mmap.c:3572:	for (vma = mm->mmap; vma; vma = vma->vm_next) {
+mm/mmap.c:3575:		if (vma->vm_file && vma->vm_file->f_mapping &&
+mm/mmap.c:3577:			vm_lock_mapping(mm, vma->vm_file->f_mapping);
+mm/mmap.c:3580:	for (vma = mm->mmap; vma; vma = vma->vm_next) {
+mm/mmap.c:3583:		if (vma->vm_file && vma->vm_file->f_mapping &&
+mm/mmap.c:3585:			vm_lock_mapping(mm, vma->vm_file->f_mapping);
+mm/mmap.c:3588:	for (vma = mm->mmap; vma; vma = vma->vm_next) {
+mm/mmap.c:3591:		if (vma->anon_vma)
+mm/mmap.c:3592:			list_for_each_entry(avc, &vma->anon_vma_chain, same_vma)
+mm/mmap.c:3605:	if (test_bit(0, (unsigned long *) &anon_vma->root->rb_root.rb_root.rb_node)) {
+mm/mmap.c:3611:		 * the vma so the users using the anon_vma->rb_root will
+mm/mmap.c:3616:		 * anon_vma->root->rwsem.
+mm/mmap.c:3619:					  &anon_vma->root->rb_root.rb_root.rb_node))
+mm/mmap.c:3651:	for (vma = mm->mmap; vma; vma = vma->vm_next) {
+mm/mmap.c:3652:		if (vma->anon_vma)
+mm/mmap.c:3653:			list_for_each_entry(avc, &vma->anon_vma_chain, same_vma)
+mm/mmap.c:3655:		if (vma->vm_file && vma->vm_file->f_mapping)
+mm/mmap.c:3656:			vm_unlock_mapping(vma->vm_file->f_mapping);
+mm/internal.h:44:	return !(vma->vm_flags & (VM_LOCKED|VM_HUGETLB|VM_PFNMAP));
+mm/internal.h:302:	munlock_vma_pages_range(vma, vma->vm_start, vma->vm_end);
+mm/internal.h:348:	return vma->vm_start + ((pgoff - vma->vm_pgoff) << PAGE_SHIFT);
+mm/internal.h:360:	VM_BUG_ON_VMA(end < vma->vm_start || start >= vma->vm_end, vma);
+mm/internal.h:362:	return max(start, vma->vm_start);
+mm/internal.h:380:		fpin = get_file(vmf->vma->vm_file);
+mm/internal.h:381:		up_read(&vmf->vma->vm_mm->mmap_sem);
+mm/swapfile.c:1867:	if (mem_cgroup_try_charge(page, vma->vm_mm, GFP_KERNEL,
+mm/swapfile.c:1873:	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+mm/swapfile.c:1880:	dec_mm_counter(vma->vm_mm, MM_SWAPENTS);
+mm/swapfile.c:1881:	inc_mm_counter(vma->vm_mm, MM_ANONPAGES);
+mm/swapfile.c:1883:	set_pte_at(vma->vm_mm, addr, pte,
+mm/swapfile.c:1884:		   pte_mkold(mk_pte(page, vma->vm_page_prot)));
+mm/swapfile.c:2051:	addr = vma->vm_start;
+mm/swapfile.c:2052:	end = vma->vm_end;
+mm/swapfile.c:2054:	pgd = pgd_offset(vma->vm_mm, addr);
+mm/swapfile.c:2074:	for (vma = mm->mmap; vma; vma = vma->vm_next) {
+mm/swapfile.c:2075:		if (vma->anon_vma) {
+mm/debug.c:127:		vma, (void *)vma->vm_start, (void *)vma->vm_end, vma->vm_next,
+mm/debug.c:128:		vma->vm_prev, vma->vm_mm,
+mm/debug.c:129:		(unsigned long)pgprot_val(vma->vm_page_prot),
+mm/debug.c:130:		vma->anon_vma, vma->vm_ops, vma->vm_pgoff,
+mm/debug.c:131:		vma->vm_file, vma->vm_private_data,
+mm/debug.c:132:		vma->vm_flags, &vma->vm_flags);
+mm/userfaultfd.c:72:	_dst_pte = mk_pte(page, dst_vma->vm_page_prot);
+mm/userfaultfd.c:73:	if (dst_vma->vm_flags & VM_WRITE)
+mm/userfaultfd.c:77:	if (dst_vma->vm_file) {
+mm/userfaultfd.c:79:		inode = dst_vma->vm_file->f_inode;
+mm/userfaultfd.c:124:					 dst_vma->vm_page_prot));
+mm/userfaultfd.c:126:	if (dst_vma->vm_file) {
+mm/userfaultfd.c:128:		inode = dst_vma->vm_file->f_inode;
+mm/userfaultfd.c:180:	int vm_alloc_shared = dst_vma->vm_flags & VM_SHARED;
+mm/userfaultfd.c:181:	int vm_shared = dst_vma->vm_flags & VM_SHARED;
+mm/userfaultfd.c:232:		if (!dst_vma->vm_userfaultfd_ctx.ctx)
+mm/userfaultfd.c:235:		if (dst_start < dst_vma->vm_start ||
+mm/userfaultfd.c:236:		    dst_start + len > dst_vma->vm_end)
+mm/userfaultfd.c:243:		vm_shared = dst_vma->vm_flags & VM_SHARED;
+mm/userfaultfd.c:271:		mapping = dst_vma->vm_file->f_mapping;
+mm/userfaultfd.c:413:	if (!(dst_vma->vm_flags & VM_SHARED)) {
+mm/userfaultfd.c:486:	if (!dst_vma->vm_userfaultfd_ctx.ctx)
+mm/userfaultfd.c:489:	if (dst_start < dst_vma->vm_start ||
+mm/userfaultfd.c:490:	    dst_start + len > dst_vma->vm_end)
+mm/userfaultfd.c:499:	    dst_vma->vm_flags & VM_SHARED))
+mm/userfaultfd.c:518:	if (!(dst_vma->vm_flags & VM_SHARED) &&
+mm/mprotect.c:61:	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+mm/mprotect.c:64:	if (prot_numa && !(vma->vm_flags & VM_SHARED) &&
+mm/mprotect.c:65:	    atomic_read(&vma->vm_mm->mm_users) == 1)
+mm/mprotect.c:68:	flush_tlb_batched_pending(vma->vm_mm);
+mm/mprotect.c:88:				if (is_cow_mapping(vma->vm_flags) &&
+mm/mprotect.c:120:					 !(vma->vm_flags & VM_SOFTDIRTY))) {
+mm/mprotect.c:138:				set_pte_at(vma->vm_mm, addr, pte, newpte);
+mm/mprotect.c:152:				set_pte_at(vma->vm_mm, addr, pte, newpte);
+mm/mprotect.c:223:				vma, vma->vm_mm, addr, end);
+mm/mprotect.c:305:	struct mm_struct *mm = vma->vm_mm;
+mm/mprotect.c:376:	struct mm_struct *mm = vma->vm_mm;
+mm/mprotect.c:377:	unsigned long oldflags = vma->vm_flags;
+mm/mprotect.c:395:	    (vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP)) &&
+mm/mprotect.c:428:	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
+mm/mprotect.c:430:			   vma->anon_vma, vma->vm_file, pgoff, vma_policy(vma),
+mm/mprotect.c:431:			   vma->vm_userfaultfd_ctx);
+mm/mprotect.c:434:		VM_WARN_ON((vma->vm_flags ^ newflags) & ~VM_SOFTDIRTY);
+mm/mprotect.c:440:	if (start != vma->vm_start) {
+mm/mprotect.c:446:	if (end != vma->vm_end) {
+mm/mprotect.c:457:	vma->vm_flags = newflags;
+mm/mprotect.c:458:	dirty_accountable = vma_wants_writenotify(vma, vma->vm_page_prot);
+mm/mprotect.c:461:	change_protection(vma, start, end, vma->vm_page_prot,
+mm/mprotect.c:530:	prev = vma->vm_prev;
+mm/mprotect.c:532:		if (vma->vm_start >= end)
+mm/mprotect.c:534:		start = vma->vm_start;
+mm/mprotect.c:536:		if (!(vma->vm_flags & VM_GROWSDOWN))
+mm/mprotect.c:539:		if (vma->vm_start > start)
+mm/mprotect.c:542:			end = vma->vm_end;
+mm/mprotect.c:544:			if (!(vma->vm_flags & VM_GROWSUP))
+mm/mprotect.c:548:	if (start > vma->vm_start)
+mm/mprotect.c:556:		/* Here we know that vma->vm_start <= nstart < vma->vm_end. */
+mm/mprotect.c:559:		if (rier && (vma->vm_flags & VM_MAYEXEC))
+mm/mprotect.c:572:		newflags |= (vma->vm_flags & ~mask_off_old_flags);
+mm/mprotect.c:584:		tmp = vma->vm_end;
+mm/mprotect.c:598:		if (!vma || vma->vm_start != nstart) {
+mm/memcontrol.c:5448:	if (!vma->vm_file) /* anonymous vma */
+mm/memcontrol.c:5453:	mapping = vma->vm_file->f_mapping;
+mm/memcontrol.c:5707:	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+mm/memcontrol.c:5928:	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+mm/mmu_notifier.c:544:	return range->vma->vm_flags & VM_READ;
+mm/gup.c:134:	if ((flags & FOLL_DUMP) && (!vma->vm_ops || !vma->vm_ops->fault))
+mm/gup.c:154:			set_pte_at(vma->vm_mm, address, pte, entry);
+mm/gup.c:179:	return is_cow_mapping(vma->vm_flags) && (flags & FOLL_GET);
+mm/gup.c:186:	struct mm_struct *mm = vma->vm_mm;
+mm/gup.c:281:	if ((flags & FOLL_MLOCK) && (vma->vm_flags & VM_LOCKED)) {
+mm/gup.c:325:	struct mm_struct *mm = vma->vm_mm;
+mm/gup.c:335:	if (pmd_huge(pmdval) && vma->vm_flags & VM_HUGETLB) {
+mm/gup.c:440:	struct mm_struct *mm = vma->vm_mm;
+mm/gup.c:445:	if (pud_huge(*pud) && vma->vm_flags & VM_HUGETLB) {
+mm/gup.c:523:	struct mm_struct *mm = vma->vm_mm;
+mm/gup.c:680:	if ((ret & VM_FAULT_WRITE) && !(vma->vm_flags & VM_WRITE))
+mm/gup.c:687:	vm_flags_t vm_flags = vma->vm_flags;
+mm/gup.c:818:		if (!vma || start >= vma->vm_end) {
+mm/gup.c:917:	if (!(vm_flags & vma->vm_flags))
+mm/gup.c:977:	if (!vma || address < vma->vm_start)
+mm/gup.c:1195: * vma->vm_mm->mmap_sem must be held.
+mm/gup.c:1206:	struct mm_struct *mm = vma->vm_mm;
+mm/gup.c:1212:	VM_BUG_ON_VMA(start < vma->vm_start, vma);
+mm/gup.c:1213:	VM_BUG_ON_VMA(end   > vma->vm_end, vma);
+mm/gup.c:1217:	if (vma->vm_flags & VM_LOCKONFAULT)
+mm/gup.c:1224:	if ((vma->vm_flags & (VM_WRITE | VM_SHARED)) == VM_WRITE)
+mm/gup.c:1231:	if (vma->vm_flags & (VM_READ | VM_WRITE | VM_EXEC))
+mm/gup.c:1268:		} else if (nstart >= vma->vm_end)
+mm/gup.c:1269:			vma = vma->vm_next;
+mm/gup.c:1270:		if (!vma || vma->vm_start >= end)
+mm/gup.c:1276:		nend = min(end, vma->vm_end);
+mm/gup.c:1277:		if (vma->vm_flags & (VM_IO | VM_PFNMAP))
+mm/gup.c:1279:		if (nstart < vma->vm_start)
+mm/gup.c:1280:			nstart = vma->vm_start;
+mm/gup.c:1355:		if ((vma->vm_flags & (VM_IO | VM_PFNMAP)) ||
+mm/gup.c:1356:		    !(vm_flags & vma->vm_flags))
+mm/migrate.c:235:		pte = pte_mkold(mk_pte(new, READ_ONCE(vma->vm_page_prot)));
+mm/migrate.c:257:			set_huge_pte_at(vma->vm_mm, pvmw.address, pvmw.pte, pte);
+mm/migrate.c:265:			set_pte_at(vma->vm_mm, pvmw.address, pvmw.pte, pte);
+mm/migrate.c:272:		if (vma->vm_flags & VM_LOCKED && !PageTransCompound(new))
+mm/migrate.c:1536:	if (!vma || addr < vma->vm_start || !vma_migratable(vma))
+mm/migrate.c:1727:		if (!vma || addr < vma->vm_start)
+mm/migrate.c:1982:	    (vma->vm_flags & VM_EXEC))
+mm/migrate.c:2086:	entry = mk_huge_pmd(new_page, vma->vm_page_prot);
+mm/migrate.c:2140:		entry = pmd_modify(entry, vma->vm_page_prot);
+mm/migrate.c:2195:	struct mm_struct *mm = vma->vm_mm;
+mm/migrate.c:2370:			migrate->vma->vm_mm, migrate->start, migrate->end);
+mm/migrate.c:2373:	walk_page_range(migrate->vma->vm_mm, migrate->start, migrate->end,
+mm/migrate.c:2670:	    (args->vma->vm_flags & VM_SPECIAL) || vma_is_dax(args->vma))
+mm/migrate.c:2674:	if (args->start < args->vma->vm_start ||
+mm/migrate.c:2675:	    args->start >= args->vma->vm_end)
+mm/migrate.c:2677:	if (args->end <= args->vma->vm_start || args->end > args->vma->vm_end)
+mm/migrate.c:2710:	struct mm_struct *mm = vma->vm_mm;
+mm/migrate.c:2758:	if (mem_cgroup_try_charge(page, vma->vm_mm, GFP_KERNEL, &memcg, false))
+mm/migrate.c:2772:			swp_entry = make_device_private_entry(page, vma->vm_flags & VM_WRITE);
+mm/migrate.c:2776:		entry = mk_pte(page, vma->vm_page_prot);
+mm/migrate.c:2777:		if (vma->vm_flags & VM_WRITE)
+mm/migrate.c:2871:							migrate->vma->vm_mm,
+mm/rmap.c:28: *           anon_vma->rwsem
+mm/rmap.c:43: * anon_vma->rwsem,mapping->i_mutex      (memory_failure, collect_procs_anon)
+mm/rmap.c:85:		atomic_set(&anon_vma->refcount, 1);
+mm/rmap.c:86:		anon_vma->degree = 1;	/* Reference for first vma */
+mm/rmap.c:87:		anon_vma->parent = anon_vma;
+mm/rmap.c:92:		anon_vma->root = anon_vma;
+mm/rmap.c:100:	VM_BUG_ON(atomic_read(&anon_vma->refcount));
+mm/rmap.c:120:	if (rwsem_is_locked(&anon_vma->root->rwsem)) {
+mm/rmap.c:144:	list_add(&avc->same_vma, &vma->anon_vma_chain);
+mm/rmap.c:145:	anon_vma_interval_tree_insert(avc, &anon_vma->rb_root);
+mm/rmap.c:178:	struct mm_struct *mm = vma->vm_mm;
+mm/rmap.c:200:	if (likely(!vma->anon_vma)) {
+mm/rmap.c:201:		vma->anon_vma = anon_vma;
+mm/rmap.c:204:		anon_vma->degree++;
+mm/rmap.c:226: * we traverse the vma->anon_vma_chain, looping over anon_vma's that
+mm/rmap.c:234:	struct anon_vma *new_root = anon_vma->root;
+mm/rmap.c:291:				anon_vma->degree < 2)
+mm/rmap.c:295:		dst->anon_vma->degree++;
+mm/rmap.c:323:	if (!pvma->anon_vma)
+mm/rmap.c:327:	vma->anon_vma = NULL;
+mm/rmap.c:338:	if (vma->anon_vma)
+mm/rmap.c:353:	anon_vma->root = pvma->anon_vma->root;
+mm/rmap.c:354:	anon_vma->parent = pvma->anon_vma;
+mm/rmap.c:360:	get_anon_vma(anon_vma->root);
+mm/rmap.c:362:	vma->anon_vma = anon_vma;
+mm/rmap.c:365:	anon_vma->parent->degree++;
+mm/rmap.c:386:	list_for_each_entry_safe(avc, next, &vma->anon_vma_chain, same_vma) {
+mm/rmap.c:390:		anon_vma_interval_tree_remove(avc, &anon_vma->rb_root);
+mm/rmap.c:396:		if (RB_EMPTY_ROOT(&anon_vma->rb_root.rb_root)) {
+mm/rmap.c:397:			anon_vma->parent->degree--;
+mm/rmap.c:404:	if (vma->anon_vma)
+mm/rmap.c:405:		vma->anon_vma->degree--;
+mm/rmap.c:411:	 * needing to write-acquire the anon_vma->root->rwsem.
+mm/rmap.c:413:	list_for_each_entry_safe(avc, next, &vma->anon_vma_chain, same_vma) {
+mm/rmap.c:416:		VM_WARN_ON(anon_vma->degree);
+mm/rmap.c:428:	init_rwsem(&anon_vma->rwsem);
+mm/rmap.c:429:	atomic_set(&anon_vma->refcount, 0);
+mm/rmap.c:430:	anon_vma->rb_root = RB_ROOT_CACHED;
+mm/rmap.c:478:	if (!atomic_inc_not_zero(&anon_vma->refcount)) {
+mm/rmap.c:522:	root_anon_vma = READ_ONCE(anon_vma->root);
+mm/rmap.c:523:	if (down_read_trylock(&root_anon_vma->rwsem)) {
+mm/rmap.c:530:			up_read(&root_anon_vma->rwsem);
+mm/rmap.c:537:	if (!atomic_inc_not_zero(&anon_vma->refcount)) {
+mm/rmap.c:552:	if (atomic_dec_and_test(&anon_vma->refcount)) {
+mm/rmap.c:697:		if (!vma->anon_vma || !page__anon_vma ||
+mm/rmap.c:698:		    vma->anon_vma->root != page__anon_vma->root)
+mm/rmap.c:701:		if (!vma->vm_file || vma->vm_file->f_mapping != page->mapping)
+mm/rmap.c:706:	if (unlikely(address < vma->vm_start || address >= vma->vm_end))
+mm/rmap.c:768:		if (vma->vm_flags & VM_LOCKED) {
+mm/rmap.c:785:				if (likely(!(vma->vm_flags & VM_SEQ_READ)))
+mm/rmap.c:807:		pra->vm_flags |= vma->vm_flags;
+mm/rmap.c:821:	if (!mm_match_cgroup(vma->vm_mm, memcg))
+mm/rmap.c:832: * @vm_flags: collect encountered vma->vm_flags who actually referenced the page
+mm/rmap.c:901:				0, vma, vma->vm_mm, address,
+mm/rmap.c:902:				min(vma->vm_end, address + page_size(page)));
+mm/rmap.c:920:			set_pte_at(vma->vm_mm, address, pte, entry);
+mm/rmap.c:934:			set_pmd_at(vma->vm_mm, address, pmd, entry);
+mm/rmap.c:960:	if (vma->vm_flags & VM_SHARED)
+mm/rmap.c:1003:	struct anon_vma *anon_vma = vma->anon_vma;
+mm/rmap.c:1029:	struct anon_vma *anon_vma = vma->anon_vma;
+mm/rmap.c:1042:		anon_vma = anon_vma->root;
+mm/rmap.c:1071:	BUG_ON(page_anon_vma(page)->root != vma->anon_vma->root);
+mm/rmap.c:1156:	VM_BUG_ON_VMA(address < vma->vm_start || address >= vma->vm_end, vma);
+mm/rmap.c:1344:	struct mm_struct *mm = vma->vm_mm;
+mm/rmap.c:1357:	if ((flags & TTU_MUNLOCK) && !(vma->vm_flags & VM_LOCKED))
+mm/rmap.c:1377:	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
+mm/rmap.c:1379:				min(vma->vm_end, address + page_size(page)));
+mm/rmap.c:1407:			if (vma->vm_flags & VM_LOCKED) {
+mm/rmap.c:1676:	int maybe_stack = vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
+mm/rmap.c:1681:	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) ==
+mm/rmap.c:1769:	struct anon_vma *root = anon_vma->root;
+mm/rmap.c:1831:	anon_vma_interval_tree_foreach(avc, &anon_vma->rb_root,
+mm/rmap.c:1936:	struct anon_vma *anon_vma = vma->anon_vma;
+mm/rmap.c:1950:	BUG_ON(address < vma->vm_start || address >= vma->vm_end);
+mm/mremap.c:86:	if (vma->vm_file)
+mm/mremap.c:87:		i_mmap_lock_write(vma->vm_file->f_mapping);
+mm/mremap.c:88:	if (vma->anon_vma)
+mm/mremap.c:89:		anon_vma_lock_write(vma->anon_vma);
+mm/mremap.c:94:	if (vma->anon_vma)
+mm/mremap.c:95:		anon_vma_unlock_write(vma->anon_vma);
+mm/mremap.c:96:	if (vma->vm_file)
+mm/mremap.c:97:		i_mmap_unlock_write(vma->vm_file->f_mapping);
+mm/mremap.c:120:	struct mm_struct *mm = vma->vm_mm;
+mm/mremap.c:156:	flush_tlb_batched_pending(vma->vm_mm);
+mm/mremap.c:178:		pte = move_pte(pte, new_vma->vm_page_prot, old_addr, new_addr);
+mm/mremap.c:200:	struct mm_struct *mm = vma->vm_mm;
+mm/mremap.c:218:	old_ptl = pmd_lock(vma->vm_mm, old_pmd);
+mm/mremap.c:252:	mmu_notifier_range_init(&range, MMU_NOTIFY_UNMAP, 0, vma, vma->vm_mm,
+mm/mremap.c:263:		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
+mm/mremap.c:266:		new_pmd = alloc_new_pmd(vma->vm_mm, vma, new_addr);
+mm/mremap.c:304:		if (pte_alloc(new_vma->vm_mm, new_pmd))
+mm/mremap.c:324:	struct mm_struct *mm = vma->vm_mm;
+mm/mremap.c:326:	unsigned long vm_flags = vma->vm_flags;
+mm/mremap.c:346:	 * pages recently unmapped.  But leave vma->vm_flags as it was,
+mm/mremap.c:354:	new_pgoff = vma->vm_pgoff + ((old_addr - vma->vm_start) >> PAGE_SHIFT);
+mm/mremap.c:364:	} else if (vma->vm_ops && vma->vm_ops->mremap) {
+mm/mremap.c:365:		err = vma->vm_ops->mremap(new_vma);
+mm/mremap.c:388:		vma->vm_flags &= ~VM_ACCOUNT;
+mm/mremap.c:389:		excess = vma->vm_end - vma->vm_start - old_len;
+mm/mremap.c:390:		if (old_addr > vma->vm_start &&
+mm/mremap.c:391:		    old_addr + old_len < vma->vm_end)
+mm/mremap.c:405:	vm_stat_account(mm, vma->vm_flags, new_len >> PAGE_SHIFT);
+mm/mremap.c:408:	if (unlikely(vma->vm_flags & VM_PFNMAP))
+mm/mremap.c:420:		vma->vm_flags |= VM_ACCOUNT;
+mm/mremap.c:422:			vma->vm_next->vm_flags |= VM_ACCOUNT;
+mm/mremap.c:440:	if (!vma || vma->vm_start > addr)
+mm/mremap.c:451:	if (!old_len && !(vma->vm_flags & (VM_SHARED | VM_MAYSHARE))) {
+mm/mremap.c:460:	if (old_len > vma->vm_end - addr)
+mm/mremap.c:467:	pgoff = (addr - vma->vm_start) >> PAGE_SHIFT;
+mm/mremap.c:468:	pgoff += vma->vm_pgoff;
+mm/mremap.c:472:	if (vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP))
+mm/mremap.c:475:	if (vma->vm_flags & VM_LOCKED) {
+mm/mremap.c:484:	if (!may_expand_vm(mm, vma->vm_flags,
+mm/mremap.c:488:	if (vma->vm_flags & VM_ACCOUNT) {
+mm/mremap.c:555:	if (vma->vm_flags & VM_MAYSHARE)
+mm/mremap.c:558:	ret = get_unmapped_area(vma->vm_file, new_addr, new_len, vma->vm_pgoff +
+mm/mremap.c:559:				((addr - vma->vm_start) >> PAGE_SHIFT),
+mm/mremap.c:577:	unsigned long end = vma->vm_end + delta;
+mm/mremap.c:578:	if (end < vma->vm_end) /* overflow */
+mm/mremap.c:580:	if (vma->vm_next && vma->vm_next->vm_start < end) /* intersection */
+mm/mremap.c:582:	if (get_unmapped_area(NULL, vma->vm_start, end - vma->vm_start,
+mm/mremap.c:682:	if (old_len == vma->vm_end - addr) {
+mm/mremap.c:687:			if (vma_adjust(vma, vma->vm_start, addr + new_len,
+mm/mremap.c:688:				       vma->vm_pgoff, NULL)) {
+mm/mremap.c:693:			vm_stat_account(mm, vma->vm_flags, pages);
+mm/mremap.c:694:			if (vma->vm_flags & VM_LOCKED) {
+mm/mremap.c:711:		if (vma->vm_flags & VM_MAYSHARE)
+mm/mremap.c:714:		new_addr = get_unmapped_area(vma->vm_file, 0, new_len,
+mm/mremap.c:715:					vma->vm_pgoff +
+mm/mremap.c:716:					((addr - vma->vm_start) >> PAGE_SHIFT),
+mm/shmem.c:258:	return vma->vm_ops == &shmem_vm_ops;
+mm/shmem.c:736:	struct inode *inode = file_inode(vma->vm_file);
+mm/shmem.c:752:	if (!vma->vm_pgoff && vma->vm_end - vma->vm_start >= inode->i_size)
+mm/shmem.c:757:			linear_page_index(vma, vma->vm_start),
+mm/shmem.c:758:			linear_page_index(vma, vma->vm_end));
+mm/shmem.c:1440:	vma->vm_pgoff = index + info->vfs_inode.i_ino;
+mm/shmem.c:1441:	vma->vm_policy = mpol_shared_policy_lookup(&info->policy, index);
+mm/shmem.c:1447:	mpol_cond_put(vma->vm_policy);
+mm/shmem.c:1633:	struct mm_struct *charge_mm = vma ? vma->vm_mm : current->mm;
+mm/shmem.c:1768:	charge_mm = vma ? vma->vm_mm : current->mm;
+mm/shmem.c:1993:	struct inode *inode = file_inode(vma->vm_file);
+mm/shmem.c:2060:	if ((vma->vm_flags & VM_NOHUGEPAGE) ||
+mm/shmem.c:2061:	    test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags))
+mm/shmem.c:2063:	else if (vma->vm_flags & VM_HUGEPAGE)
+mm/shmem.c:2165:	struct inode *inode = file_inode(vma->vm_file);
+mm/shmem.c:2172:	struct inode *inode = file_inode(vma->vm_file);
+mm/shmem.c:2175:	index = ((addr - vma->vm_start) >> PAGE_SHIFT) + vma->vm_pgoff;
+mm/shmem.c:2217:		if ((vma->vm_flags & VM_SHARED) && (vma->vm_flags & VM_WRITE))
+mm/shmem.c:2227:		if (vma->vm_flags & VM_SHARED)
+mm/shmem.c:2228:			vma->vm_flags &= ~(VM_MAYWRITE);
+mm/shmem.c:2232:	vma->vm_ops = &shmem_vm_ops;
+mm/shmem.c:2234:			((vma->vm_start + ~HPAGE_PMD_MASK) & HPAGE_PMD_MASK) <
+mm/shmem.c:2235:			(vma->vm_end & HPAGE_PMD_MASK)) {
+mm/shmem.c:2236:		khugepaged_enter(vma, vma->vm_flags);
+mm/shmem.c:2316:	struct inode *inode = file_inode(dst_vma->vm_file);
+mm/shmem.c:2382:	_dst_pte = mk_pte(page, dst_vma->vm_page_prot);
+mm/shmem.c:2383:	if (dst_vma->vm_flags & VM_WRITE)
+mm/shmem.c:3992:	struct inode *inode = file_inode(vma->vm_file);
+mm/shmem.c:3997:	if ((vma->vm_flags & VM_NOHUGEPAGE) ||
+mm/shmem.c:3998:	    test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags))
+mm/shmem.c:4010:			off = round_up(vma->vm_pgoff, HPAGE_PMD_NR);
+mm/shmem.c:4018:			return (vma->vm_flags & VM_HUGEPAGE);
+mm/shmem.c:4176:	loff_t size = vma->vm_end - vma->vm_start;
+mm/shmem.c:4184:	file = shmem_kernel_file_setup("dev/zero", size, vma->vm_flags);
+mm/shmem.c:4188:	if (vma->vm_file)
+mm/shmem.c:4189:		fput(vma->vm_file);
+mm/shmem.c:4190:	vma->vm_file = file;
+mm/shmem.c:4191:	vma->vm_ops = &shmem_vm_ops;
+mm/shmem.c:4194:			((vma->vm_start + ~HPAGE_PMD_MASK) & HPAGE_PMD_MASK) <
+mm/shmem.c:4195:			(vma->vm_end & HPAGE_PMD_MASK)) {
+mm/shmem.c:4196:		khugepaged_enter(vma, vma->vm_flags);
+mm/pagewalk.c:242:	if (vma->vm_flags & VM_PFNMAP) {
+mm/pagewalk.c:327:		} else if (start < vma->vm_start) { /* outside vma */
+mm/pagewalk.c:329:			next = min(end, vma->vm_start);
+mm/pagewalk.c:332:			next = min(end, vma->vm_end);
+mm/pagewalk.c:333:			vma = vma->vm_next;
+mm/pagewalk.c:361:		.mm		= vma->vm_mm,
+mm/pagewalk.c:372:	err = walk_page_test(vma->vm_start, vma->vm_end, &walk);
+mm/pagewalk.c:377:	return __walk_page_range(vma->vm_start, vma->vm_end, &walk);
+mm/swap.c:460:	if (likely((vma->vm_flags & (VM_LOCKED | VM_SPECIAL)) != VM_LOCKED))
+mm/pgtable-generic.c:61:		set_pte_at(vma->vm_mm, address, ptep, entry);
+mm/pgtable-generic.c:103:		set_pmd_at(vma->vm_mm, address, pmdp, entry);
+mm/pgtable-generic.c:131:	pmd = pmdp_huge_get_and_clear(vma->vm_mm, address, pmdp);
+mm/pgtable-generic.c:144:	pud = pudp_huge_get_and_clear(vma->vm_mm, address, pudp);
+mm/pgtable-generic.c:206:	pmd = pmdp_huge_get_and_clear(vma->vm_mm, address, pmdp);
+mm/mempolicy.c:383:	for (vma = mm->mmap; vma; vma = vma->vm_next)
+mm/mempolicy.c:384:		mpol_rebind_policy(vma->vm_policy, new);
+mm/mempolicy.c:618:	unsigned long endvma = vma->vm_end;
+mm/mempolicy.c:631:	if (vma->vm_start > start)
+mm/mempolicy.c:632:		start = vma->vm_start;
+mm/mempolicy.c:635:		if (!vma->vm_next && vma->vm_end < end)
+mm/mempolicy.c:637:		if (qp->prev && qp->prev->vm_end < vma->vm_start)
+mm/mempolicy.c:646:			(vma->vm_flags & (VM_READ | VM_EXEC | VM_WRITE)) &&
+mm/mempolicy.c:647:			!(vma->vm_flags & VM_MIXEDMAP))
+mm/mempolicy.c:706:		 vma->vm_start, vma->vm_end, vma->vm_pgoff,
+mm/mempolicy.c:707:		 vma->vm_ops, vma->vm_file,
+mm/mempolicy.c:708:		 vma->vm_ops ? vma->vm_ops->set_policy : NULL);
+mm/mempolicy.c:714:	if (vma->vm_ops && vma->vm_ops->set_policy) {
+mm/mempolicy.c:715:		err = vma->vm_ops->set_policy(vma, new);
+mm/mempolicy.c:720:	old = vma->vm_policy;
+mm/mempolicy.c:721:	vma->vm_policy = new; /* protected by mmap_sem */
+mm/mempolicy.c:743:	if (!vma || vma->vm_start > start)
+mm/mempolicy.c:746:	prev = vma->vm_prev;
+mm/mempolicy.c:747:	if (start > vma->vm_start)
+mm/mempolicy.c:750:	for (; vma && vma->vm_start < end; prev = vma, vma = next) {
+mm/mempolicy.c:751:		next = vma->vm_next;
+mm/mempolicy.c:752:		vmstart = max(start, vma->vm_start);
+mm/mempolicy.c:753:		vmend   = min(end, vma->vm_end);
+mm/mempolicy.c:758:		pgoff = vma->vm_pgoff +
+mm/mempolicy.c:759:			((vmstart - vma->vm_start) >> PAGE_SHIFT);
+mm/mempolicy.c:760:		prev = vma_merge(mm, prev, vmstart, vmend, vma->vm_flags,
+mm/mempolicy.c:761:				 vma->anon_vma, vma->vm_file, pgoff,
+mm/mempolicy.c:762:				 new_pol, vma->vm_userfaultfd_ctx);
+mm/mempolicy.c:765:			next = vma->vm_next;
+mm/mempolicy.c:768:			/* vma_merge() joined vma && vma->next, case 8 */
+mm/mempolicy.c:771:		if (vma->vm_start != vmstart) {
+mm/mempolicy.c:772:			err = split_vma(vma->vm_mm, vma, vmstart, 1);
+mm/mempolicy.c:776:		if (vma->vm_end != vmend) {
+mm/mempolicy.c:777:			err = split_vma(vma->vm_mm, vma, vmend, 0);
+mm/mempolicy.c:905:		if (vma->vm_ops && vma->vm_ops->get_policy)
+mm/mempolicy.c:906:			pol = vma->vm_ops->get_policy(vma, addr);
+mm/mempolicy.c:908:			pol = vma->vm_policy;
+mm/mempolicy.c:1175:		vma = vma->vm_next;
+mm/mempolicy.c:1708:		if (vma->vm_ops && vma->vm_ops->get_policy) {
+mm/mempolicy.c:1709:			pol = vma->vm_ops->get_policy(vma, addr);
+mm/mempolicy.c:1710:		} else if (vma->vm_policy) {
+mm/mempolicy.c:1711:			pol = vma->vm_policy;
+mm/mempolicy.c:1715:			 * a pseudo vma whose vma->vm_ops=NULL. Take a reference
+mm/mempolicy.c:1754:	if (vma->vm_ops && vma->vm_ops->get_policy) {
+mm/mempolicy.c:1757:		pol = vma->vm_ops->get_policy(vma, vma->vm_start);
+mm/mempolicy.c:1765:	pol = vma->vm_policy;
+mm/mempolicy.c:1919:		off = vma->vm_pgoff >> (shift - PAGE_SHIFT);
+mm/mempolicy.c:1920:		off += (addr - vma->vm_start) >> shift;
+mm/mempolicy.c:2402:		pgoff = vma->vm_pgoff;
+mm/mempolicy.c:2403:		pgoff += (addr - vma->vm_start) >> PAGE_SHIFT;
+mm/mempolicy.c:2627:		 vma->vm_pgoff,
+mm/mempolicy.c:2633:		new = sp_alloc(vma->vm_pgoff, vma->vm_pgoff + sz, npol);
+mm/mempolicy.c:2637:	err = shared_policy_replace(info, vma->vm_pgoff, vma->vm_pgoff+sz, new);
+mm/filemap.c:2367:				up_read(&vmf->vma->vm_mm->mmap_sem);
+mm/filemap.c:2385:	struct file *file = vmf->vma->vm_file;
+mm/filemap.c:2392:	if (vmf->vma->vm_flags & VM_RAND_READ)
+mm/filemap.c:2397:	if (vmf->vma->vm_flags & VM_SEQ_READ) {
+mm/filemap.c:2434:	struct file *file = vmf->vma->vm_file;
+mm/filemap.c:2441:	if (vmf->vma->vm_flags & VM_RAND_READ || !ra->ra_pages)
+mm/filemap.c:2464: * vma->vm_mm->mmap_sem must be held on entry.
+mm/filemap.c:2479:	struct file *file = vmf->vma->vm_file;
+mm/filemap.c:2506:		count_memcg_event_mm(vmf->vma->vm_mm, PGMAJFAULT);
+mm/filemap.c:2605:	struct file *file = vmf->vma->vm_file;
+mm/filemap.c:2674:	struct inode *inode = file_inode(vmf->vma->vm_file);
+mm/filemap.c:2678:	file_update_time(vmf->vma->vm_file);
+mm/filemap.c:2712:	vma->vm_ops = &generic_file_vm_ops;
+mm/filemap.c:2721:	if ((vma->vm_flags & VM_SHARED) && (vma->vm_flags & VM_MAYWRITE))

@@ -155,6 +155,9 @@ struct prctl_mm_map {
 #define PR_SET_PTRACER 0x59616d61
 # define PR_SET_PTRACER_ANY ((unsigned long)-1)
 
+#define PR_ALT_SYSCALL 0x43724f53
+# define PR_ALT_SYSCALL_SET_SYSCALL_TABLE 1
+
 #define PR_SET_CHILD_SUBREAPER	36
 #define PR_GET_CHILD_SUBREAPER	37
 
@@ -233,5 +236,10 @@ struct prctl_mm_map {
 #define PR_SET_TAGGED_ADDR_CTRL		55
 #define PR_GET_TAGGED_ADDR_CTRL		56
 # define PR_TAGGED_ADDR_ENABLE		(1UL << 0)
+
+#define PR_SET_CORE_SCHED   0x200
+
+#define PR_SET_VMA    0x53564d41
+# define PR_SET_VMA_ANON_NAME   0
 
 #endif /* _LINUX_PRCTL_H */

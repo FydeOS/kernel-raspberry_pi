@@ -45,6 +45,7 @@
 
 #include <linux/compat.h>
 #include <linux/syscalls.h>
+#include <linux/alt-syscall.h>
 #include <linux/kprobes.h>
 #include <linux/user_namespace.h>
 #include <linux/binfmts.h>
@@ -2261,6 +2262,12 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
 	return -EINVAL;
 }
 
+static int prctl_set_vma(unsigned long opt, unsigned long start,
+    unsigned long len_in, unsigned long arg)
+{
+  return -EINVAL;
+}
+
 SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 		unsigned long, arg4, unsigned long, arg5)
 {
@@ -2345,6 +2352,12 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 	case PR_SET_SECCOMP:
 		error = prctl_set_seccomp(arg2, (char __user *)arg3);
 		break;
+  case PR_ALT_SYSCALL:
+    if (arg2 == PR_ALT_SYSCALL_SET_SYSCALL_TABLE)
+      error = set_alt_sys_call_table((char __user *)arg3);
+    else
+      error = -EINVAL;
+    break;
 	case PR_GET_TSC:
 		error = GET_TSC_CTL(arg2);
 		break;
@@ -2473,6 +2486,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 			return -EINVAL;
 		error = arch_prctl_spec_ctrl_set(me, arg2, arg3);
 		break;
+  case PR_SET_VMA:
+    error = prctl_set_vma(arg2, arg3, arg4, arg5);
+    break;
 	case PR_PAC_RESET_KEYS:
 		if (arg3 || arg4 || arg5)
 			return -EINVAL;
@@ -2488,6 +2504,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 			return -EINVAL;
 		error = GET_TAGGED_ADDR_CTRL();
 		break;
+  case PR_SET_CORE_SCHED:
+    error = task_set_core_sched(arg2, NULL);
+    break;
 	default:
 		error = -EINVAL;
 		break;

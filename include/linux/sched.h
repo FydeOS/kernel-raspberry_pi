@@ -1997,4 +1997,9 @@ int sched_trace_rq_cpu(struct rq *rq);
 
 const struct cpumask *sched_trace_rd_span(struct root_domain *rd);
 
+#define task_set_core_sched(set, tsk) (-EINVAL)
+#define sched_core_irq_enter(void) do { } while (0)
+#define sched_core_irq_exit(void) do { } while (0)
+#define sched_core_user_enter(void) do { } while (0)
+
 #endif
