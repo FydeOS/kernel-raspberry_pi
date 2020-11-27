@@ -270,6 +270,11 @@ COMPAT_SYSCALL_DEFINE2(settimeofday, struct old_timeval32 __user *, tv,
 #if !defined(CONFIG_64BIT_TIME) || defined(CONFIG_64BIT)
 SYSCALL_DEFINE1(adjtimex, struct __kernel_timex __user *, txc_p)
 {
+  return ksys_adjtimex(txc_p);
+}
+
+int ksys_adjtimex(struct __kernel_timex __user * txc_p)
+{
 	struct __kernel_timex txc;		/* Local copy of parameter */
 	int ret;
 
@@ -349,6 +354,11 @@ int put_old_timex32(struct old_timex32 __user *utp, const struct __kernel_timex 
 }
 
 SYSCALL_DEFINE1(adjtimex_time32, struct old_timex32 __user *, utp)
+{
+  return ksys_adjtimex_time32(utp);
+}
+
+int ksys_adjtimex_time32(struct old_timex32 __user * utp)
 {
 	struct __kernel_timex txc;
 	int err, ret;

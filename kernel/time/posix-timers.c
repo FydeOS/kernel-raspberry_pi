@@ -1090,6 +1090,12 @@ int do_clock_adjtime(const clockid_t which_clock, struct __kernel_timex * ktx)
 SYSCALL_DEFINE2(clock_adjtime, const clockid_t, which_clock,
 		struct __kernel_timex __user *, utx)
 {
+  return ksys_clock_adjtime(which_clock, utx);
+}
+
+int ksys_clock_adjtime(const clockid_t which_clock,
+           struct __kernel_timex __user * utx)
+{
 	struct __kernel_timex ktx;
 	int err;
 
@@ -1159,6 +1165,11 @@ SYSCALL_DEFINE2(clock_gettime32, clockid_t, which_clock,
 
 SYSCALL_DEFINE2(clock_adjtime32, clockid_t, which_clock,
 		struct old_timex32 __user *, utp)
+{
+  return ksys_clock_adjtime32(which_clock, utp);
+}
+
+int ksys_clock_adjtime32(clockid_t which_clock, struct old_timex32 __user * utp)
 {
 	struct __kernel_timex ktx;
 	int err;

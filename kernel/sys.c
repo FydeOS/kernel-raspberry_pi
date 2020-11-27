@@ -196,6 +196,11 @@ out:
 
 SYSCALL_DEFINE3(setpriority, int, which, int, who, int, niceval)
 {
+  return ksys_setpriority(which, who, niceval);
+}
+
+int ksys_setpriority(int which, int who, int niceval)
+{
 	struct task_struct *g, *p;
 	struct user_struct *user;
 	const struct cred *cred = current_cred();
@@ -265,6 +270,11 @@ out:
  * to stay compatible.
  */
 SYSCALL_DEFINE2(getpriority, int, which, int, who)
+{
+  return ksys_getpriority(which, who);
+}
+
+int ksys_getpriority(int which, int who)
 {
 	struct task_struct *g, *p;
 	struct user_struct *user;
@@ -2269,7 +2279,12 @@ static int prctl_set_vma(unsigned long opt, unsigned long start,
 }
 
 SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-		unsigned long, arg4, unsigned long, arg5)
+		unsigned long, arg4, unsigned long, arg5) {
+  return ksys_prctl(option, arg2, arg3, arg4, arg5);  
+}
+
+int ksys_prctl(int option, unsigned long arg2, unsigned long arg3,
+         unsigned long arg4, unsigned long arg5)
 {
 	struct task_struct *me = current;
 	unsigned char comm[sizeof(me->comm)];
@@ -2516,6 +2531,12 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 
 SYSCALL_DEFINE3(getcpu, unsigned __user *, cpup, unsigned __user *, nodep,
 		struct getcpu_cache __user *, unused)
+{
+  return ksys_getcpu(cpup, nodep, unused);
+}
+
+int ksys_getcpu(unsigned __user *cpup, unsigned __user *nodep,
+    struct getcpu_cache __user *unused)
 {
 	int err = 0;
 	int cpu = raw_smp_processor_id();
