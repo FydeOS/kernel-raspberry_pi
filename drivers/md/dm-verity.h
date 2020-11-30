@@ -55,6 +55,7 @@ struct dm_verity {
 	int hash_failed;	/* set to 1 if hash of any block failed */
 	enum verity_mode mode;	/* mode for handling verification errors */
 	unsigned corrupted_errs;/* Number of errors for corrupted blocks */
+  int error_behavior; /* selects error behavior on io errors */
 
 	struct workqueue_struct *verify_wq;
 
