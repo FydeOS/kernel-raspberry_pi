@@ -152,6 +152,8 @@ struct v3d_bo {
 	 * v3d_render_job->unref_list
 	 */
 	struct list_head unref_head;
+  u32 vc4_handle;
+  int vc4_fd;
 };
 
 static inline struct v3d_bo *
@@ -174,8 +176,8 @@ to_v3d_fence(struct dma_fence *fence)
 	return (struct v3d_fence *)fence;
 }
 
-#define V3D_READ(offset) readl(v3d->hub_regs + offset)
-#define V3D_WRITE(offset, val) writel(val, v3d->hub_regs + offset)
+#define V3D_READ2(offset) readl(v3d->hub_regs + offset)
+#define V3D_WRITE2(offset, val) writel(val, v3d->hub_regs + offset)
 
 #define V3D_BRIDGE_READ(offset) readl(v3d->bridge_regs + offset)
 #define V3D_BRIDGE_WRITE(offset, val) writel(val, v3d->bridge_regs + offset)
@@ -260,14 +262,14 @@ struct v3d_csd_job {
 };
 
 /**
- * __wait_for - magic wait macro
+ * __wait_for2 - magic wait macro
  *
  * Macro to help avoid open coding check/wait/timeout patterns. Note that it's
  * important that we check the condition again after having timed out, since the
  * timeout could be due to preemption or similar and we've never had a chance to
  * check the condition before the timeout.
  */
-#define __wait_for(OP, COND, US, Wmin, Wmax) ({ \
+#define __wait_for2(OP, COND, US, Wmin, Wmax) ({ \
 	const ktime_t end__ = ktime_add_ns(ktime_get_raw(), 1000ll * (US)); \
 	long wait__ = (Wmin); /* recommended min for usleep is 10 us */	\
 	int ret__;							\
@@ -292,9 +294,9 @@ struct v3d_csd_job {
 	ret__;								\
 })
 
-#define _wait_for(COND, US, Wmin, Wmax)	__wait_for(, (COND), (US), (Wmin), \
+#define _wait_for2(COND, US, Wmin, Wmax)	__wait_for2(, (COND), (US), (Wmin), \
 						   (Wmax))
-#define wait_for(COND, MS)		_wait_for((COND), (MS) * 1000, 10, 1000)
+#define wait_for2(COND, MS)		_wait_for2((COND), (MS) * 1000, 10, 1000)
 
 static inline unsigned long nsecs_to_jiffies_timeout(const u64 n)
 {

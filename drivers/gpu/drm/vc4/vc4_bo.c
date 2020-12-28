@@ -30,6 +30,7 @@ static const char * const bo_type_names[] = {
 	"RCL",
 	"BCL",
 	"kernel BO cache",
+  "V3D Bind",
 };
 
 static bool is_user_label(int label)
@@ -671,12 +672,13 @@ struct dma_buf * vc4_prime_export(struct drm_gem_object *obj, int flags)
 	 * exported BO is released. This shouldn't be a problem since we don't
 	 * expect exported BOs to be marked as purgeable.
 	 */
+  
 	ret = vc4_bo_inc_usecnt(bo);
 	if (ret) {
 		DRM_ERROR("Failed to increment BO usecnt\n");
 		return ERR_PTR(ret);
 	}
-
+  
 	dmabuf = drm_gem_prime_export(obj, flags);
 	if (IS_ERR(dmabuf))
 		vc4_bo_dec_usecnt(bo);
@@ -785,7 +787,6 @@ vc4_prime_import_sg_table(struct drm_device *dev,
 			  struct sg_table *sgt)
 {
 	struct drm_gem_object *obj;
-
 	obj = drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
 	if (IS_ERR(obj))
 		return obj;
@@ -828,7 +829,8 @@ int vc4_create_bo_ioctl(struct drm_device *dev, void *data,
 	 * We can't allocate from the BO cache, because the BOs don't
 	 * get zeroed, and that might leak data between users.
 	 */
-	bo = vc4_bo_create(dev, args->size, false, VC4_BO_TYPE_V3D);
+	bo = vc4_bo_create(dev, args->size, false, args->flags == V3D_BIND ? 
+    VC4_BO_TYPE_V3D_BIND : VC4_BO_TYPE_V3D);
 	if (IS_ERR(bo))
 		return PTR_ERR(bo);
 
@@ -1096,4 +1098,14 @@ int vc4_label_bo_ioctl(struct drm_device *dev, void *data,
 	drm_gem_object_put_unlocked(gem_obj);
 
 	return ret;
+}
+
+void vc4_bo_close(struct drm_gem_object *gem_obj, struct drm_file *file_priv)
+{
+  struct vc4_bo *bo = to_vc4_bo(gem_obj);
+  if (bo->label == VC4_BO_TYPE_V3D_BIND) {
+    bo->madv = VC4_MADV_DONTNEED;
+    vc4_bo_dec_usecnt(bo);
+    DRM_DEBUG("vc4 exported gem closed, bo usercount:%d\n", bo->usecnt);
+  }
 }

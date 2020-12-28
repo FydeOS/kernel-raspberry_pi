@@ -682,6 +682,9 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
 	u32 hvs_format = format->hvs;
 	unsigned int rotation;
 	int ret, i;
+  char f_name[4];
+  for (i=0; i< 4; i++) 
+    f_name[i] = (char) ((format->drm >> i*8) & 0xFF);
 
 	if (vc4_state->dlist_initialized)
 		return 0;
@@ -1105,7 +1108,12 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
 	vc4_state->dlist_initialized = 1;
 
 	vc4_plane_calc_load(state);
-
+/*
+  DRM_INFO("set mode format:%s, crt(x:%d,y:%d,w:%d,h:%d), src(x:%u,y:%u,w1:%u,h1:%u, w2:%u, h2:%u)\n", f_name,
+    vc4_state->crtc_x, vc4_state->crtc_y, vc4_state->crtc_w, vc4_state->crtc_h,
+    vc4_state->src_x, vc4_state->src_y, vc4_state->src_w[0],vc4_state->src_h[0],
+    vc4_state->src_w[1], vc4_state->src_h[1]);
+*/
 	return 0;
 }
 

@@ -199,20 +199,20 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
 
 	trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
 
-	V3D_WRITE(V3D_TFU_IIA, job->args.iia);
-	V3D_WRITE(V3D_TFU_IIS, job->args.iis);
-	V3D_WRITE(V3D_TFU_ICA, job->args.ica);
-	V3D_WRITE(V3D_TFU_IUA, job->args.iua);
-	V3D_WRITE(V3D_TFU_IOA, job->args.ioa);
-	V3D_WRITE(V3D_TFU_IOS, job->args.ios);
-	V3D_WRITE(V3D_TFU_COEF0, job->args.coef[0]);
+	V3D_WRITE2(V3D_TFU_IIA, job->args.iia);
+	V3D_WRITE2(V3D_TFU_IIS, job->args.iis);
+	V3D_WRITE2(V3D_TFU_ICA, job->args.ica);
+	V3D_WRITE2(V3D_TFU_IUA, job->args.iua);
+	V3D_WRITE2(V3D_TFU_IOA, job->args.ioa);
+	V3D_WRITE2(V3D_TFU_IOS, job->args.ios);
+	V3D_WRITE2(V3D_TFU_COEF0, job->args.coef[0]);
 	if (job->args.coef[0] & V3D_TFU_COEF0_USECOEF) {
-		V3D_WRITE(V3D_TFU_COEF1, job->args.coef[1]);
-		V3D_WRITE(V3D_TFU_COEF2, job->args.coef[2]);
-		V3D_WRITE(V3D_TFU_COEF3, job->args.coef[3]);
+		V3D_WRITE2(V3D_TFU_COEF1, job->args.coef[1]);
+		V3D_WRITE2(V3D_TFU_COEF2, job->args.coef[2]);
+		V3D_WRITE2(V3D_TFU_COEF3, job->args.coef[3]);
 	}
 	/* ICFG kicks off the job. */
-	V3D_WRITE(V3D_TFU_ICFG, job->args.icfg | V3D_TFU_ICFG_IOC);
+	V3D_WRITE2(V3D_TFU_ICFG, job->args.icfg | V3D_TFU_ICFG_IOC);
 
 	return fence;
 }

@@ -48,6 +48,9 @@
 #define DRIVER_MINOR 0
 #define DRIVER_PATCHLEVEL 0
 
+struct drm_device *vc4_drm = NULL;
+struct drm_file *vc4_drm_file = NULL;
+
 /* Helper function for mapping the regs on a platform device. */
 void __iomem *vc4_ioremap_regs(struct platform_device *dev, int index)
 {
@@ -125,6 +128,8 @@ static int vc4_open(struct drm_device *dev, struct drm_file *file)
 
 	vc4_perfmon_open_file(vc4file);
 	file->driver_priv = vc4file;
+  vc4_drm_file = file;
+  DRM_INFO("signed vc4_drm_file");
 	return 0;
 }
 
@@ -199,6 +204,7 @@ static struct drm_driver vc4_drm_driver = {
 
 	.gem_create_object = vc4_create_object,
 	.gem_free_object_unlocked = vc4_free_object,
+  .gem_close_object = vc4_bo_close,
 	.gem_vm_ops = &vc4_vm_ops,
 
 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
@@ -327,7 +333,8 @@ static int vc4_drm_bind(struct device *dev)
 		goto unbind_all;
 
 	drm_fbdev_generic_setup(drm, 16);
-
+  vc4_drm = drm;
+  DRM_INFO("signed vc4_drm");
 	return 0;
 
 unbind_all:
@@ -337,6 +344,7 @@ gem_destroy:
 	vc4_bo_cache_destroy(drm);
 dev_put:
 	drm_dev_put(drm);
+  vc4_drm = NULL;
 	return ret;
 }
 

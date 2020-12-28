@@ -146,10 +146,10 @@ v3d_hub_irq(int irq, void *arg)
 	u32 intsts;
 	irqreturn_t status = IRQ_NONE;
 
-	intsts = V3D_READ(V3D_HUB_INT_STS);
+	intsts = V3D_READ2(V3D_HUB_INT_STS);
 
 	/* Acknowledge the interrupts we're handling here. */
-	V3D_WRITE(V3D_HUB_INT_CLR, intsts);
+	V3D_WRITE2(V3D_HUB_INT_CLR, intsts);
 
 	if (intsts & V3D_HUB_INT_TFUC) {
 		struct v3d_fence *fence =
@@ -163,8 +163,8 @@ v3d_hub_irq(int irq, void *arg)
 	if (intsts & (V3D_HUB_INT_MMU_WRV |
 		      V3D_HUB_INT_MMU_PTI |
 		      V3D_HUB_INT_MMU_CAP)) {
-		u32 axi_id = V3D_READ(V3D_MMU_VIO_ID);
-		u64 vio_addr = ((u64)V3D_READ(V3D_MMU_VIO_ADDR) <<
+		u32 axi_id = V3D_READ2(V3D_MMU_VIO_ID);
+		u64 vio_addr = ((u64)V3D_READ2(V3D_MMU_VIO_ADDR) <<
 				(v3d->va_width - 32));
 		static const char *const v3d41_axi_ids[] = {
 			"L2T",
@@ -179,7 +179,7 @@ v3d_hub_irq(int irq, void *arg)
 		const char *client = "?";
 		static int logged_error;
 
-		V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL));
+		V3D_WRITE2(V3D_MMU_CTL, V3D_READ2(V3D_MMU_CTL));
 
 		if (v3d->ver >= 41) {
 			axi_id = axi_id >> 5;
@@ -215,7 +215,7 @@ v3d_irq_init(struct v3d_dev *v3d)
 	 */
 	for (core = 0; core < v3d->cores; core++)
 		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS);
-	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS);
+	V3D_WRITE2(V3D_HUB_INT_CLR, V3D_HUB_IRQS);
 
 	irq1 = platform_get_irq_optional(v3d->pdev, 1);
 	if (irq1 == -EPROBE_DEFER)
@@ -261,8 +261,8 @@ v3d_irq_enable(struct v3d_dev *v3d)
 		V3D_CORE_WRITE(core, V3D_CTL_INT_MSK_CLR, V3D_CORE_IRQS);
 	}
 
-	V3D_WRITE(V3D_HUB_INT_MSK_SET, ~V3D_HUB_IRQS);
-	V3D_WRITE(V3D_HUB_INT_MSK_CLR, V3D_HUB_IRQS);
+	V3D_WRITE2(V3D_HUB_INT_MSK_SET, ~V3D_HUB_IRQS);
+	V3D_WRITE2(V3D_HUB_INT_MSK_CLR, V3D_HUB_IRQS);
 }
 
 void
@@ -273,12 +273,12 @@ v3d_irq_disable(struct v3d_dev *v3d)
 	/* Disable all interrupts. */
 	for (core = 0; core < v3d->cores; core++)
 		V3D_CORE_WRITE(core, V3D_CTL_INT_MSK_SET, ~0);
-	V3D_WRITE(V3D_HUB_INT_MSK_SET, ~0);
+	V3D_WRITE2(V3D_HUB_INT_MSK_SET, ~0);
 
 	/* Clear any pending interrupts we might have left. */
 	for (core = 0; core < v3d->cores; core++)
 		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS);
-	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS);
+	V3D_WRITE2(V3D_HUB_INT_CLR, V3D_HUB_IRQS);
 
 	cancel_work_sync(&v3d->overflow_mem_work);
 }

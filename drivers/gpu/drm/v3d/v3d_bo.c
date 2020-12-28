@@ -24,6 +24,9 @@
 
 #include "v3d_drv.h"
 #include "uapi/drm/v3d_drm.h"
+#include "v3d_vc4_bind.h"
+
+#define ARC_CALLOC (1<<7)
 
 /* Called DRM core on the last userspace/kernel unreference of the
  * BO.
@@ -46,12 +49,21 @@ void v3d_free_object(struct drm_gem_object *obj)
 
 	/* GPU execution may have dirtied any pages in the BO. */
 	bo->base.pages_mark_dirty_on_put = true;
-
+  if (bo->vc4_handle)
+    free_bo_from_vc4(&bo->vc4_handle);
 	drm_gem_shmem_free_object(obj);
+}
+
+void v3d_close_object(struct drm_gem_object *obj, struct drm_file *file)
+{
+  struct v3d_bo *bo = to_v3d_bo(obj);
+  if (bo->vc4_handle)
+    free_bo_from_vc4(&bo->vc4_handle);
 }
 
 static const struct drm_gem_object_funcs v3d_gem_funcs = {
 	.free = v3d_free_object,
+  .close = v3d_close_object,
 	.print_info = drm_gem_shmem_print_info,
 	.pin = drm_gem_shmem_pin,
 	.unpin = drm_gem_shmem_unpin,
@@ -170,13 +182,29 @@ int v3d_create_bo_ioctl(struct drm_device *dev, void *data,
 			struct drm_file *file_priv)
 {
 	struct drm_v3d_create_bo *args = data;
+  struct drm_gem_object *gem_obj;
 	struct v3d_bo *bo = NULL;
+  u32 vc4_handle;
 	int ret;
 
-	if (args->flags != 0) {
+	if (args->flags != 0 && args->flags != ARC_CALLOC) {
 		DRM_INFO("unknown create_bo flags: %d\n", args->flags);
 		return -EINVAL;
 	}
+  if (is_vc4_enable() && args->flags == ARC_CALLOC) {
+    ret = import_bo_from_vc4(dev, file_priv, PAGE_ALIGN(args->size), &vc4_handle, &args->handle);
+    if (!ret) {
+      gem_obj = drm_gem_object_lookup(file_priv, args->handle);
+      if (!gem_obj) {
+        DRM_DEBUG("Failed to look up new imported GEM BO %d\n", args->handle);
+        return -EINVAL;
+      }
+      bo = to_v3d_bo(gem_obj);
+      bo->vc4_handle = vc4_handle;
+      DRM_DEBUG("store vc4 handle:%u", bo->vc4_handle);
+      return ret;
+    }
+  }
 
 	bo = v3d_bo_create(dev, file_priv, PAGE_ALIGN(args->size));
 	if (IS_ERR(bo))

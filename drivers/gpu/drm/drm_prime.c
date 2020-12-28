@@ -306,7 +306,6 @@ int drm_gem_prime_fd_to_handle(struct drm_device *dev,
 			dma_buf, handle);
 	if (ret == 0)
 		goto out_put;
-
 	/* never seen this one, need to import */
 	mutex_lock(&dev->object_name_lock);
 	if (dev->driver->gem_prime_import)
@@ -862,7 +861,6 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
 	struct sg_table *sgt;
 	struct drm_gem_object *obj;
 	int ret;
-
 	if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
 		obj = dma_buf->priv;
 		if (obj->dev == dev) {
@@ -874,7 +872,6 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
 			return obj;
 		}
 	}
-
 	if (!dev->driver->gem_prime_import_sg_table)
 		return ERR_PTR(-EINVAL);
 
@@ -898,7 +895,6 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
 
 	obj->import_attach = attach;
 	obj->resv = dma_buf->resv;
-
 	return obj;
 
 fail_unmap:

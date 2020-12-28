@@ -28,6 +28,7 @@
 #include <uapi/drm/v3d_drm.h>
 
 #include "v3d_drv.h"
+#include "v3d_vc4_bind.h"
 #include "v3d_regs.h"
 
 #define DRIVER_NAME "v3d"
@@ -107,7 +108,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
 		    args->param <= DRM_V3D_PARAM_V3D_CORE0_IDENT2) {
 			args->value = V3D_CORE_READ(0, offset);
 		} else {
-			args->value = V3D_READ(offset);
+			args->value = V3D_READ2(offset);
 		}
 		return 0;
 	}
@@ -258,12 +259,12 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
 	if (ret)
 		goto dev_free;
 
-	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
+	mmu_debug = V3D_READ2(V3D_MMU_DEBUG_INFO);
 	dma_set_mask_and_coherent(dev,
 		DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH)));
 	v3d->va_width = 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
 
-	ident1 = V3D_READ(V3D_HUB_IDENT1);
+	ident1 = V3D_READ2(V3D_HUB_IDENT1);
 	v3d->ver = (V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_TVER) * 10 +
 		    V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_REV));
 	v3d->cores = V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_NCORES);
@@ -336,6 +337,7 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
 
 	ret = clk_set_rate(v3d->clk, v3d->clk_down_rate);
 	WARN_ON_ONCE(ret != 0);
+  init_v3d_vc4_bind();
 
 	return 0;
 

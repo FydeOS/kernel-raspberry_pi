@@ -39,26 +39,26 @@ static int v3d_mmu_flush_all(struct v3d_dev *v3d)
 	/* Make sure that another flush isn't already running when we
 	 * start this one.
 	 */
-	ret = wait_for(!(V3D_READ(V3D_MMU_CTL) &
+	ret = wait_for2(!(V3D_READ2(V3D_MMU_CTL) &
 			 V3D_MMU_CTL_TLB_CLEARING), 100);
 	if (ret)
 		dev_err(v3d->dev, "TLB clear wait idle pre-wait failed\n");
 
-	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
+	V3D_WRITE2(V3D_MMU_CTL, V3D_READ2(V3D_MMU_CTL) |
 		  V3D_MMU_CTL_TLB_CLEAR);
 
-	V3D_WRITE(V3D_MMUC_CONTROL,
+	V3D_WRITE2(V3D_MMUC_CONTROL,
 		  V3D_MMUC_CONTROL_FLUSH |
 		  V3D_MMUC_CONTROL_ENABLE);
 
-	ret = wait_for(!(V3D_READ(V3D_MMU_CTL) &
+	ret = wait_for2(!(V3D_READ2(V3D_MMU_CTL) &
 			 V3D_MMU_CTL_TLB_CLEARING), 100);
 	if (ret) {
 		dev_err(v3d->dev, "TLB clear wait idle failed\n");
 		return ret;
 	}
 
-	ret = wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
+	ret = wait_for2(!(V3D_READ2(V3D_MMUC_CONTROL) &
 			 V3D_MMUC_CONTROL_FLUSHING), 100);
 	if (ret)
 		dev_err(v3d->dev, "MMUC flush wait idle failed\n");
@@ -68,8 +68,8 @@ static int v3d_mmu_flush_all(struct v3d_dev *v3d)
 
 int v3d_mmu_set_page_table(struct v3d_dev *v3d)
 {
-	V3D_WRITE(V3D_MMU_PT_PA_BASE, v3d->pt_paddr >> V3D_MMU_PAGE_SHIFT);
-	V3D_WRITE(V3D_MMU_CTL,
+	V3D_WRITE2(V3D_MMU_PT_PA_BASE, v3d->pt_paddr >> V3D_MMU_PAGE_SHIFT);
+	V3D_WRITE2(V3D_MMU_CTL,
 		  V3D_MMU_CTL_ENABLE |
 		  V3D_MMU_CTL_PT_INVALID_ENABLE |
 		  V3D_MMU_CTL_PT_INVALID_ABORT |
@@ -78,10 +78,10 @@ int v3d_mmu_set_page_table(struct v3d_dev *v3d)
 		  V3D_MMU_CTL_WRITE_VIOLATION_INT |
 		  V3D_MMU_CTL_CAP_EXCEEDED_ABORT |
 		  V3D_MMU_CTL_CAP_EXCEEDED_INT);
-	V3D_WRITE(V3D_MMU_ILLEGAL_ADDR,
+	V3D_WRITE2(V3D_MMU_ILLEGAL_ADDR,
 		  (v3d->mmu_scratch_paddr >> V3D_MMU_PAGE_SHIFT) |
 		  V3D_MMU_ILLEGAL_ADDR_ENABLE);
-	V3D_WRITE(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_ENABLE);
+	V3D_WRITE2(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_ENABLE);
 
 	return v3d_mmu_flush_all(v3d);
 }

@@ -485,8 +485,10 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
 			if (!sg_dma_len(s))
 				continue;
 
-			if (sg_dma_address(s) != next_addr)
+			if (sg_dma_address(s) != next_addr) {
+        DRM_ERROR("the dma address is not continue.");
 				return ERR_PTR(-EINVAL);
+      }
 
 			next_addr = sg_dma_address(s) + sg_dma_len(s);
 		}
@@ -500,7 +502,7 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
 	cma_obj->paddr = sg_dma_address(sgt->sgl);
 	cma_obj->sgt = sgt;
 
-	DRM_DEBUG_PRIME("dma_addr = %pad, size = %zu\n", &cma_obj->paddr, attach->dmabuf->size);
+	DRM_DEBUG_PRIME("cma: dma_addr = %pad, size = %zu\n", &cma_obj->paddr, attach->dmabuf->size);
 
 	return &cma_obj->base;
 }

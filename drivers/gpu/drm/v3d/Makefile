@@ -4,6 +4,7 @@
 # core driver code
 v3d-y := \
 	v3d_bo.o \
+  v3d_vc4_bind.o \
 	v3d_drv.o \
 	v3d_fence.o \
 	v3d_gem.o \

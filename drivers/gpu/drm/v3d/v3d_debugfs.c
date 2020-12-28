@@ -86,7 +86,7 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
 	for (i = 0; i < ARRAY_SIZE(v3d_hub_reg_defs); i++) {
 		seq_printf(m, "%s (0x%04x): 0x%08x\n",
 			   v3d_hub_reg_defs[i].name, v3d_hub_reg_defs[i].reg,
-			   V3D_READ(v3d_hub_reg_defs[i].reg));
+			   V3D_READ2(v3d_hub_reg_defs[i].reg));
 	}
 
 	if (v3d->ver < 41) {
@@ -132,10 +132,10 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
 	int core;
 
 
-	ident0 = V3D_READ(V3D_HUB_IDENT0);
-	ident1 = V3D_READ(V3D_HUB_IDENT1);
-	ident2 = V3D_READ(V3D_HUB_IDENT2);
-	ident3 = V3D_READ(V3D_HUB_IDENT3);
+	ident0 = V3D_READ2(V3D_HUB_IDENT0);
+	ident1 = V3D_READ2(V3D_HUB_IDENT1);
+	ident2 = V3D_READ2(V3D_HUB_IDENT2);
+	ident3 = V3D_READ2(V3D_HUB_IDENT3);
 	cores = V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_NCORES);
 
 	seq_printf(m, "Revision:   %d.%d.%d.%d\n",

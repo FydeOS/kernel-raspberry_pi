@@ -18,7 +18,7 @@
 #include <drm/drm_modeset_lock.h>
 
 #include "uapi/drm/vc4_drm.h"
-
+#define V3D_BIND (1<<7)
 struct drm_device;
 struct drm_gem_object;
 
@@ -37,7 +37,8 @@ enum vc4_kernel_bo_type {
 	VC4_BO_TYPE_RCL,
 	VC4_BO_TYPE_BCL,
 	VC4_BO_TYPE_KERNEL_CACHE,
-	VC4_BO_TYPE_COUNT
+  VC4_BO_TYPE_V3D_BIND,
+	VC4_BO_TYPE_COUNT,
 };
 
 /* Performance monitor object. The perform lifetime is controlled by userspace
@@ -781,6 +782,7 @@ int vc4_bo_inc_usecnt(struct vc4_bo *bo);
 void vc4_bo_dec_usecnt(struct vc4_bo *bo);
 void vc4_bo_add_to_purgeable_pool(struct vc4_bo *bo);
 void vc4_bo_remove_from_purgeable_pool(struct vc4_bo *bo);
+void vc4_bo_close(struct drm_gem_object *, struct drm_file *file_priv);
 
 /* vc4_crtc.c */
 extern struct platform_driver vc4_crtc_driver;
@@ -937,5 +939,6 @@ int vc4_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
 			      struct drm_file *file_priv);
 int vc4_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
 				 struct drm_file *file_priv);
-
+extern struct drm_device *vc4_drm;
+extern struct drm_file *vc4_drm_file;
 #endif /* _VC4_DRV_H_ */

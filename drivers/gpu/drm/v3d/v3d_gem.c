@@ -91,7 +91,7 @@ v3d_idle_axi(struct v3d_dev *v3d, int core)
 {
 	V3D_CORE_WRITE(core, V3D_GMP_CFG, V3D_GMP_CFG_STOP_REQ);
 
-	if (wait_for((V3D_CORE_READ(core, V3D_GMP_STATUS) &
+	if (wait_for2((V3D_CORE_READ(core, V3D_GMP_STATUS) &
 		      (V3D_GMP_STATUS_RD_COUNT_MASK |
 		       V3D_GMP_STATUS_WR_COUNT_MASK |
 		       V3D_GMP_STATUS_CFG_BUSY)) == 0, 100)) {
@@ -107,7 +107,7 @@ v3d_idle_gca(struct v3d_dev *v3d)
 
 	V3D_GCA_WRITE(V3D_GCA_SAFE_SHUTDOWN, V3D_GCA_SAFE_SHUTDOWN_EN);
 
-	if (wait_for((V3D_GCA_READ(V3D_GCA_SAFE_SHUTDOWN_ACK) &
+	if (wait_for2((V3D_GCA_READ(V3D_GCA_SAFE_SHUTDOWN_ACK) &
 		      V3D_GCA_SAFE_SHUTDOWN_ACK_ACKED) ==
 		     V3D_GCA_SAFE_SHUTDOWN_ACK_ACKED, 100)) {
 		DRM_ERROR("Failed to wait for safe GCA shutdown\n");
@@ -127,7 +127,7 @@ v3d_reset_by_bridge(struct v3d_dev *v3d)
 		/* GFXH-1383: The SW_INIT may cause a stray write to address 0
 		 * of the unit, so reset it to its power-on value here.
 		 */
-		V3D_WRITE(V3D_HUB_AXICFG, V3D_HUB_AXICFG_MAX_LEN_MASK);
+		V3D_WRITE2(V3D_HUB_AXICFG, V3D_HUB_AXICFG_MAX_LEN_MASK);
 	} else {
 		WARN_ON_ONCE(V3D_GET_FIELD(version,
 					   V3D_TOP_GR_BRIDGE_MAJOR) != 7);
@@ -236,7 +236,7 @@ v3d_clean_caches(struct v3d_dev *v3d)
 	trace_v3d_cache_clean_begin(dev);
 
 	V3D_CORE_WRITE(core, V3D_CTL_L2TCACTL, V3D_L2TCACTL_TMUWCF);
-	if (wait_for(!(V3D_CORE_READ(core, V3D_CTL_L2TCACTL) &
+	if (wait_for2(!(V3D_CORE_READ(core, V3D_CTL_L2TCACTL) &
 		       V3D_L2TCACTL_L2TFLS), 100)) {
 		DRM_ERROR("Timeout waiting for L1T write combiner flush\n");
 	}
@@ -246,7 +246,7 @@ v3d_clean_caches(struct v3d_dev *v3d)
 		       V3D_L2TCACTL_L2TFLS |
 		       V3D_SET_FIELD(V3D_L2TCACTL_FLM_CLEAN, V3D_L2TCACTL_FLM));
 
-	if (wait_for(!(V3D_CORE_READ(core, V3D_CTL_L2TCACTL) &
+	if (wait_for2(!(V3D_CORE_READ(core, V3D_CTL_L2TCACTL) &
 		       V3D_L2TCACTL_L2TFLS), 100)) {
 		DRM_ERROR("Timeout waiting for L2T clean\n");
 	}
