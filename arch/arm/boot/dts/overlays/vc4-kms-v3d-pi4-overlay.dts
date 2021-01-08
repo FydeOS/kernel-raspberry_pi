@@ -141,7 +141,7 @@
 	fragment@19 {
 		target = <&audio>;
 		__overlay__  {
-		    brcm,disable-hdmi;
+		    brcm,enable-hdmi;
 		};
 	};
 
