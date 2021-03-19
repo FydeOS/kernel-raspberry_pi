@@ -1054,6 +1054,8 @@ const char *get_link(struct nameidata *nd)
 			return ERR_PTR(-ECHILD);
 		touch_atime(&last->link);
 	}
+  if (nd->path.mnt->mnt_flags & MNT_NOSYMFOLLOW)
+     return ERR_PTR(-ELOOP);
 
 	error = security_inode_follow_link(dentry, inode,
 					   nd->flags & LOOKUP_RCU);

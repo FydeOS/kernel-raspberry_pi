@@ -39,7 +39,7 @@ enum vc4_hdmi_field {
 	HDMI_CEC_CPU_CLEAR,
 	HDMI_CEC_CPU_MASK_STATUS,
 	HDMI_CEC_CPU_MASK_SET,
-	HDMI_CEC_CPU_MASK_CLEAR,
+	HDMI_CEC_CPU_MASK_CLEAR, //11
 
 	/*
 	 * Transmit data, first byte is low byte of the 32-bit reg.
@@ -62,7 +62,7 @@ enum vc4_hdmi_field {
 	HDMI_CSC_24_23,
 	HDMI_CSC_32_31,
 	HDMI_CSC_34_33,
-	HDMI_CSC_CTL,
+	HDMI_CSC_CTL, //29
 
 	/*
 	 * 20-bit fields containing CTS values to be transmitted if
@@ -76,7 +76,7 @@ enum vc4_hdmi_field {
 	HDMI_HORZA,
 	HDMI_HORZB,
 	HDMI_HOTPLUG,
-	HDMI_HOTPLUG_INT,
+	HDMI_HOTPLUG_INT, //38
 
 	/*
 	 * 3 bits per field, where each field maps from that
@@ -84,13 +84,13 @@ enum vc4_hdmi_field {
 	 */
 	HDMI_MAI_CHANNEL_MAP,
 	HDMI_MAI_CONFIG,
-	HDMI_MAI_CTL,
+	HDMI_MAI_CTL,  //41
 
 	/*
 	 * Register for DMAing in audio data to be transported over
 	 * the MAI bus to the Falcon core.
 	 */
-	HDMI_MAI_DATA,
+	HDMI_MAI_DATA, //42
 
 	/* Format header to be placed on the MAI data. Unused. */
 	HDMI_MAI_FMT,
@@ -99,7 +99,7 @@ enum vc4_hdmi_field {
 	HDMI_MAI_FORMAT,
 	HDMI_MAI_SMP,
 	HDMI_MAI_THR,
-	HDMI_M_CTL,
+	HDMI_M_CTL, //47
 	HDMI_RAM_PACKET_CONFIG,
 	HDMI_RAM_PACKET_START,
 	HDMI_RAM_PACKET_STATUS,
@@ -436,7 +436,7 @@ static inline u32 vc4_hdmi_read(struct vc4_hdmi *hdmi,
 	base = __vc4_hdmi_get_field_base(hdmi, field->reg);
 	if (!base) {
 		dev_warn(&hdmi->pdev->dev,
-			 "Unknown register ID %u\n", reg);
+			 "Unknown register ID %u, name:%s\n", reg, field->name);
 		return 0;
 	}
 

@@ -3094,6 +3094,15 @@ long do_mount(const char *dev_name, const char __user *dir_name,
 	if (!(flags & MS_NOATIME))
 		mnt_flags |= MNT_RELATIME;
 
+  if (data_page && !(flags & MS_NOSYMFOLLOW)) {
+     if (!strncmp((char *)data_page, "nosymfollow", 11) ||
+         strstr((char *)data_page, ",nosymfollow")) {
+             WARN(1,
+                  "nosymfollow passed in mount data should be changed to the MS_NOSYMFOLLOW flag.");
+             flags |= MS_NOSYMFOLLOW;
+     }
+   }
+
 	/* Separate the per-mountpoint flags */
 	if (flags & MS_NOSUID)
 		mnt_flags |= MNT_NOSUID;
@@ -3109,6 +3118,8 @@ long do_mount(const char *dev_name, const char __user *dir_name,
 		mnt_flags &= ~(MNT_RELATIME | MNT_NOATIME);
 	if (flags & MS_RDONLY)
 		mnt_flags |= MNT_READONLY;
+  if (flags & MS_NOSYMFOLLOW)
+    mnt_flags |= MNT_NOSYMFOLLOW;
 
 	/* The default atime for remount is preservation */
 	if ((flags & MS_REMOUNT) &&
