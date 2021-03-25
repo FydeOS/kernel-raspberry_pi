@@ -37,6 +37,7 @@ int import_bo_from_vc4(struct drm_device *dev,
     goto out;
   
   ret = drm_gem_prime_fd_to_handle(dev, file_priv, prime_fd, handle);
+  DRM_DEBUG_DRIVER("get vc4 handle:%u, v3d handle:%u\n", args.handle, *handle);
   if (ret)
     DRM_ERROR("Borrow bo from vc4 size:%u, vc4 handle:%u, fd:%d, v3d handle:%u\n", 
       unaligned_size, *vc4_handle, prime_fd, *handle);
@@ -49,7 +50,7 @@ int free_bo_from_vc4(u32 *handle) {
   int ret;
   /* need releasing handle twice? */
   ret = drm_gem_handle_delete(vc4_drm_file, *handle);
-  DRM_DEBUG("release borrowed vc4 handle:%d\n", *handle);
+  DRM_DEBUG_DRIVER("release borrowed vc4 handle:%d\n", *handle);
   if (ret)
     DRM_ERROR("Free handle:%u, from vc4, ret:%d\n", *handle, ret);
   *handle = 0;

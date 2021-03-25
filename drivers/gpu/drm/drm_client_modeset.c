@@ -903,7 +903,7 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool 
 	struct drm_modeset_acquire_ctx ctx;
 	struct drm_mode_set *mode_set;
 	int ret;
-
+  DRM_DEBUG_KMS("commit atomic\n");
 	drm_modeset_acquire_init(&ctx, 0);
 
 	state = drm_atomic_state_alloc(dev);
@@ -988,12 +988,13 @@ static int drm_client_modeset_commit_legacy(struct drm_client_dev *client)
 	struct drm_mode_set *mode_set;
 	struct drm_plane *plane;
 	int ret = 0;
-
+  DRM_DEBUG_KMS("commit legacy\n");
 	drm_modeset_lock_all(dev);
 	drm_for_each_plane(plane, dev) {
+    
 		if (plane->type != DRM_PLANE_TYPE_PRIMARY)
 			drm_plane_force_disable(plane);
-
+     
 		if (plane->rotation_property)
 			drm_mode_plane_set_obj_prop(plane,
 						    plane->rotation_property,

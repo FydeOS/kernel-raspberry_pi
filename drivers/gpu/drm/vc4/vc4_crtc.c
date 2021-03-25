@@ -1266,7 +1266,7 @@ static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
 	 * requirement of the plane configuration, and reject ones
 	 * that will take too much.
 	 */
-	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY);
+	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY , 0);
 	if (IS_ERR(primary_plane)) {
 		dev_err(dev, "failed to construct primary plane\n");
 		ret = PTR_ERR(primary_plane);

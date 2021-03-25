@@ -528,6 +528,9 @@ void vc4_free_object(struct drm_gem_object *gem_bo)
 	struct vc4_bo *bo = to_vc4_bo(gem_bo);
 	struct list_head *cache_list;
 
+  if (bo->label == VC4_BO_TYPE_V3D_BIND) 
+    DRM_DEBUG_DRIVER("free vc4 v3d bo, usecnt:%u\n",refcount_read(&bo->usecnt));
+
 	/* Remove the BO from the purgeable list. */
 	mutex_lock(&bo->madv_lock);
 	if (bo->madv == VC4_MADV_DONTNEED && !refcount_read(&bo->usecnt))
@@ -796,6 +799,7 @@ vc4_prime_import_sg_table(struct drm_device *dev,
 
 static int vc4_grab_bin_bo(struct vc4_dev *vc4, struct vc4_file *vc4file)
 {
+#ifdef RPI3
 	int ret;
 
 	if (!vc4->v3d)
@@ -807,7 +811,7 @@ static int vc4_grab_bin_bo(struct vc4_dev *vc4, struct vc4_file *vc4file)
 	ret = vc4_v3d_bin_bo_get(vc4, &vc4file->bin_bo_used);
 	if (ret)
 		return ret;
-
+#endif
 	return 0;
 }
 
@@ -821,7 +825,6 @@ int vc4_create_bo_ioctl(struct drm_device *dev, void *data,
 	int ret;
 
 	ret = vc4_grab_bin_bo(vc4, vc4file);
-  ret = 0;
 	if (ret)
 		return ret;
 
@@ -888,7 +891,6 @@ vc4_create_shader_bo_ioctl(struct drm_device *dev, void *data,
 	}
 
 	ret = vc4_grab_bin_bo(vc4, vc4file);
-  ret = 0;
 	if (ret)
 		return ret;
 
@@ -1103,9 +1105,10 @@ int vc4_label_bo_ioctl(struct drm_device *dev, void *data,
 void vc4_bo_close(struct drm_gem_object *gem_obj, struct drm_file *file_priv)
 {
   struct vc4_bo *bo = to_vc4_bo(gem_obj);
-  if (bo->label == VC4_BO_TYPE_V3D_BIND) {
+  if (bo->label == VC4_BO_TYPE_V3D_BIND && bo->base.vaddr != NULL) {
     bo->madv = VC4_MADV_DONTNEED;
     vc4_bo_dec_usecnt(bo);
-    DRM_DEBUG("vc4 exported gem closed, bo usercount:%d\n", bo->usecnt);
+    DRM_DEBUG_DRIVER("vc4 exported gem closed, bo usercount:%d\n", bo->usecnt);
   }
 }
+

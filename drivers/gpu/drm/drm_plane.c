@@ -682,7 +682,7 @@ static int __setplane_internal(struct drm_plane *plane,
 {
 	int ret = 0;
 
-	WARN_ON(drm_drv_uses_atomic_modeset(plane->dev));
+	//WARN_ON(drm_drv_uses_atomic_modeset(plane->dev));
 
 	/* No fb means shut it down */
 	if (!fb) {
@@ -734,7 +734,7 @@ static int __setplane_atomic(struct drm_plane *plane,
 {
 	int ret;
 
-	WARN_ON(!drm_drv_uses_atomic_modeset(plane->dev));
+//	WARN_ON(!drm_drv_uses_atomic_modeset(plane->dev));
 
 	/* No fb means shut it down */
 	if (!fb)
@@ -869,6 +869,7 @@ static int drm_mode_cursor_universal(struct drm_crtc *crtc,
 	 */
 	if (req->flags & DRM_MODE_CURSOR_BO) {
 		if (req->handle) {
+      DRM_DEBUG_KMS("Create New Cursor with handle:%u",req->handle);
 			fb = drm_internal_framebuffer_create(dev, &fbreq, file_priv);
 			if (IS_ERR(fb)) {
 				DRM_DEBUG_KMS("failed to wrap cursor buffer in drm framebuffer\n");
